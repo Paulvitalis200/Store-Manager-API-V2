@@ -13,6 +13,9 @@ def create_app(config):
     db_connection()
     create_tables()
 
+    from .api.V2 import my_apis
+    app.register_blueprint(my_apis)
+
     jwt = JWTManager(app)
 
     return app
