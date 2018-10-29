@@ -9,9 +9,11 @@ class Products(Resource, ProductModel):
     parser.add_argument('name', required=True, help='Product name cannot be blank', type=str)
     parser.add_argument('price', required=True, help=' Product price cannot be blank or a word', type=int)
     parser.add_argument('quantity', required=True, help='Product quantity cannot be blank or a word', type=int)
+    parser.add_argument('category', required=True, help="Category must be specified", type=str)
+    parser.add_argument('id', required=False, help="ID must not be specified", type=int)
 
     def __init__(self):
-        self.ops = ProductModel()
+        self.operation = ProductModel()
 
     def get(self):
         products = self.ops.get_all_products()
@@ -27,18 +29,11 @@ class Products(Resource, ProductModel):
         name = args.get('name').strip()  # removes whitespace
         price = args.get('price')
         quantity = args.get('quantity')
-        payload = ['name', 'price', 'quantity']
-
-        if not name or not price or not quantity:
-            return {'message': 'Product name, price and quantity are all required'}, 400
-        else:
-            # Check if the item is not required
-            for item in data.keys():
-                if item not in payload:
-                    return {"message": "The field '{}' is not required for the products".format(item)}, 400
+        category = args.get('category')
+        payload = ['name', 'price', 'quantity', 'category']
 
         try:
-            product = self.ops.save(name, price, quantity)
+            product = self.operation.save(name, price, quantity, category)
             return {
                 'message': 'Product created successfully!',
                 'product': product,
@@ -49,7 +44,5 @@ class Products(Resource, ProductModel):
             print(my_exception)
             return {'message': 'Something went wrong.'}, 500
 
-        def update(self, id):
-            pass
-
-        def delete(self, id):
+    def delete(self, id):
+        pass
