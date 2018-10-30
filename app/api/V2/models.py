@@ -1,6 +1,8 @@
 from app.db_con import db_connection, close_connection
 import psycopg2.extras
 from passlib.hash import pbkdf2_sha256 as sha256
+from flask_jwt_extended import get_jwt_identity
+from functools import wraps
 
 
 class ProductModel():
@@ -8,7 +10,7 @@ class ProductModel():
     def __init__(self):
         self.db = db_connection()
         self.curr = self.db.cursor()
-        #self.close = close_connection(self.db)
+        # self.close = close_connection(self.db)
 
     def save(self, name, price, quantity, category):
         payload = {
@@ -22,7 +24,17 @@ class ProductModel():
                  VALUES (%(name)s, %(price)s, %(quantity)s, %(category)s);
                 """
         self.curr.execute(query, payload)
+        self.db.commit()
         return payload
+
+        # db = db_connection()
+        # curr = db.cursor()
+        # query = """
+        #     INSERT INTO products (name, price, quantity, category) VALUES
+        #     ('{}', '{}', '{}', '{}');
+        # """.format(name, price, quantity, category)
+        # curr.execute(query)
+        # db.commit()
 
     def get_all_products(self):
         self.curr.execute(
@@ -51,7 +63,8 @@ class ProductModel():
         product = self.curr.fetchone()
         if product is None:
             return {"message": "No product with that id at the moment"}, 404
-        return product
+        else:
+            return {"message": "Product retrieved successfully", "product": product}
 
     def delete_product(self, id):
         product = self.get_each_product(id)
@@ -68,11 +81,20 @@ class ProductModel():
         self.curr.execute(query)
         self.db.commit()
         if not product:
-            return {'message': "product doesn't exist"},404
+            return {'message': "product doesn't exist"}, 404
+
         return {"message": "Product updated", "product": product}, 200
 
 
 class UserModel:
+
+    @staticmethod
+    def create_admin():
+        db = db_connection()
+        curr = db.cursor()
+        user = UserModel.find_by_email("vitalispaul48@live.com")
+        if not user:
+            return UserModel.create_user(username="PaulVitalis", email="vitalispaul48@live.com", password=UserModel().generate_hash("manu2012"), role="admin")
 
     @staticmethod
     def create_user(username, email, password, role):
@@ -110,3 +132,15 @@ class UserModel:
     @staticmethod
     def verify_hash(password, hash):
         return sha256.verify(password, hash)
+
+
+def admin_only(_f):
+    ''' Restrict access if not admin '''
+    @wraps(_f)
+    def wrapper_function(*args, **kwargs):
+        user = UserModel().find_by_email(get_jwt_identity())
+        print(user)
+        if user.role != 'admin':
+            return {'message': 'Unauthorized access, you must be an admin to access this level'}, 401
+        return _f(*args, **kwargs)
+    return wrapper_function

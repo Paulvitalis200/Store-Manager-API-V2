@@ -1,6 +1,6 @@
 from flask_restful import Resource, reqparse
 from flask import request, json, jsonify, make_response
-
+from flask_jwt_extended import jwt_required
 from app.api.V2.models import ProductModel
 
 
@@ -15,6 +15,7 @@ class Products(Resource, ProductModel):
     def __init__(self):
         self.operation = ProductModel()
 
+    @jwt_required
     def get(self):
         products = self.operation.get_all_products()
         return {
@@ -23,6 +24,7 @@ class Products(Resource, ProductModel):
             "Products": products
         }, 200
 
+    @jwt_required
     def post(self):
         args = Products.parser.parse_args()
         name = args.get('name').strip()  # removes whitespace
@@ -44,15 +46,19 @@ class Products(Resource, ProductModel):
 
 
 class SingleProduct(Resource, ProductModel):
-    def get(self, id):
-        return ProductModel.get_each_product(self,id)
 
+    @jwt_required
+    def get(self, id):
+        return ProductModel.get_each_product(self, id)
+
+    @jwt_required
     def delete(self, id):
         return ProductModel.delete_product(self, id)
 
+    @jwt_required
     def put(self, id):
         data = request.get_json()
         name = data['name']
         quantity = data['quantity']
         price = data['price']
-        return ProductModel.update_product(self,id, name, quantity, price)
+        return ProductModel.update_product(self, id, name, quantity, price)
