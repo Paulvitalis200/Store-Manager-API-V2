@@ -1,5 +1,5 @@
 from flask_restful import Resource, reqparse
-from flask import request
+from flask import request, json, jsonify, make_response
 
 from app.api.V2.models import ProductModel
 
@@ -49,3 +49,10 @@ class SingleProduct(Resource, ProductModel):
 
     def delete(self, id):
         return ProductModel.delete_product(self, id)
+
+    def put(self, id):
+        data = request.get_json()
+        name = data['name']
+        quantity = data['quantity']
+        price = data['price']
+        return ProductModel.update_product(self,id, name, quantity, price)

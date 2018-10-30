@@ -50,7 +50,7 @@ class ProductModel():
         self.curr.execute(query)
         product = self.curr.fetchone()
         if product is None:
-            return {"message": "No product at the moment"}, 404
+            return {"message": "No product with that id at the moment"}, 404
         return product
 
     def delete_product(self, id):
@@ -62,7 +62,14 @@ class ProductModel():
         self.db.commit()
         return {"message": "Deleted", "product deleted": product}, 200
 
-
+    def update_product(self, id, name, quantity, price):
+        product = self.get_each_product(id)
+        if not product:
+            return {"message": "Product not found"}, 404
+        query = "UPDATE products SET name='{}', quantity='{}', price='{}' WHERE id='{}'".format(name, quantity, price, id)
+        self.curr.execute(query)
+        self.db.commit()
+        return {"message": "Product updated", "product": product}, 200
 
 
 class UserModel:
