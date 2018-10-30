@@ -4,7 +4,12 @@ import os
 # Base configuration
 class Config(object):
     DEBUG = False
-    SECRET = os.getenv('STOREMANAGER_API_SECRET', 'Imnottellingyou')
+    TESTING = False
+    HOST = os.getenv('HOST')
+    PORT = os.getenv('PORT')
+    DBNAME = os.getenv('DBNAME')
+    PASSWORD = os.getenv('PASSWORD')
+    USER = os.getenv('USERNAME')
 
 # Test configuration
 
@@ -12,6 +17,7 @@ class Config(object):
 class TestConfig(Config):
     TESTING = True
     DEBUG = True
+    DBNAME = "test_database"
 
 # Development configuration
 

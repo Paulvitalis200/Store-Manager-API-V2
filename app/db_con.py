@@ -1,17 +1,30 @@
 import psycopg2
 from psycopg2 import Error
+from instance.config import Config, TestConfig
+import os
 
 
 def db_connection():
+    variable = os.getenv("APP_SETTINGS")
     try:
-        conn = psycopg2.connect(
-            user="postgres",
-            password="manu2012",
-            host="127.0.0.1",
-            port="5432",
-            database="store_manager_api"
-        )
-        return conn
+        if variable == "production" or variable == "development":
+            conn = psycopg2.connect(
+                user=Config.USER,
+                password=Config.PASSWORD,
+                host=Config.HOST,
+                port=Config.PORT,
+                dbname=Config.DBNAME
+            )
+            return conn
+        else:
+            test_conn = psycopg2.connect(
+                user=Config.USER,
+                password=Config.PASSWORD,
+                host=Config.HOST,
+                port=Config.PORT,
+                dbname=TestConfig.DBNAME
+            )
+            return test_conn
     except (Exception, psycopg2.DatabaseError) as error:
         return ('Failed to connect', error)
 
