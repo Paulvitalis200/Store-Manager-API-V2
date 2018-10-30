@@ -64,11 +64,11 @@ class ProductModel():
 
     def update_product(self, id, name, quantity, price):
         product = self.get_each_product(id)
-        if not product:
-            return {"message": "Product not found"}, 404
         query = "UPDATE products SET name='{}', quantity='{}', price='{}' WHERE id='{}'".format(name, quantity, price, id)
         self.curr.execute(query)
         self.db.commit()
+        if not product:
+            return {'message': "product doesn't exist"},404
         return {"message": "Product updated", "product": product}, 200
 
 
