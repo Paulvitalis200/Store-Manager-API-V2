@@ -3,6 +3,7 @@ from flask_restful import Api
 
 from .views.products import Products, SingleProduct
 from .views.users import UserRegistration, UserLogin, UserLogout
+from .views.sales import Sales, SingleSaleAdmin
 
 my_apis = Blueprint("resources.api", __name__, url_prefix='/api/v2')
 api = Api(my_apis)
@@ -35,3 +36,16 @@ api.add_resource(
     "/logout",
     endpoint="logout"
 )
+
+api.add_resource(
+    Sales,
+    "/sales",
+    endpoint="sales"
+)
+
+api.add_resource(
+    SingleSaleAdmin,
+    "/sales/<int:id>",
+    endpoint="sale"
+)
+
