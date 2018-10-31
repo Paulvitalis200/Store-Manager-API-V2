@@ -46,11 +46,11 @@ def tables():
     sales_table = """
                     CREATE TABLE IF NOT EXISTS sales (
                     id serial PRIMARY KEY,
-                    attendant_name VARCHAR NOT NULL,
-                    product_name VARCHAR NOT NULL,
-                    quantity INTEGER,
-                    price INTEGER,
-                    total_price INTEGER
+                    sold_by varchar NOT NULL,
+                    product_name varchar NOT NULL,
+                    quantity integer NOT NULL,
+                    price integer NOT NULL,
+                    total_price integer
                     )
                  """
     users_table = """

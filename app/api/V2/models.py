@@ -55,14 +55,14 @@ class ProductModel():
         self.curr.execute(query)
         product = self.curr.fetchone()
         product_format = {
-            "product id": id,
+            "product id": product[0],
             "name": product[1],
             "price": product[2],
             "available_stock": product[3],
             "min_stock": product[4],
             "category": product[5]
         }
-        if product is None:
+        if not product:
             return {"message": "No product with that id at the moment"}, 404
         else:
             return {
@@ -222,11 +222,11 @@ class SalesModel():
             SELECT * FROM sales;
             """
         )
-        data = self.curr.fetchall()
+        sales = self.curr.fetchall()
         result = []
 
-        for i, items in enumerate(data):
-            id, attendant_name, product_name, quantity, price, total_price = items
+        for i, items in enumerate(sales):
+            id, attendant_name, name, quantity, price, total_price = items
             stuff = {
                 "sale id": id,
                 "product_name": name,
@@ -260,13 +260,3 @@ class SalesModel():
         self.curr.execute("SELECT * FROM sales")
         sales = self.cur.fetchall()
         return sales
-
-    def serialize(self):
-        """put the product data in form of a dictionary"""
-        return dict(
-            attendant_name=self.attendant_name,
-            product_name=self.product_name,
-            quantity=self.quantity,
-            price=self.price,
-            total_price=self.total_price
-        )
