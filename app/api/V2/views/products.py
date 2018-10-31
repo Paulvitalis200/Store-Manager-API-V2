@@ -33,14 +33,8 @@ class Products(Resource, ProductModel):
         category = args.get('category')
 
         try:
-
-            product = self.operation.save(name, price, quantity, category)
-
-            return {
-                'message': 'Product created successfully!',
-                'product': product,
-                'status': 'ok'
-            }, 201
+            product = self.operation.get_item_if_exists(name, price, quantity, category)
+            return product
 
         except Exception as my_exception:
             print(my_exception)

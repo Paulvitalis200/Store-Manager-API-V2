@@ -75,6 +75,19 @@ class ProductModel():
         self.db.commit()
         return {"message": "Deleted", "product deleted": product}, 200
 
+    def get_item_if_exists(self, name, price, quantity, category):
+        query = "SELECT * FROM products WHERE name = '{}';".format(name)
+        self.curr.execute(query)
+        product = self.curr.fetchone()
+        if product is None:
+            return {
+                "message": "Item created successfully",
+                "product": self.save(name, price, quantity, category)
+            }, 201
+
+        else:
+            return {"message": "Item already exists"}, 400
+
     def update_product(self, id, name, quantity, price):
         product = self.get_each_product(id)
         query = "UPDATE products SET name='{}', quantity='{}', price='{}' WHERE id='{}'".format(name, quantity, price, id)
