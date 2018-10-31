@@ -3,6 +3,7 @@ from flask import request, json, jsonify, make_response
 from flask_jwt_extended import jwt_required
 from app.api.V2.models import ProductModel
 from app.api.V2.views.users import admin_only
+from functools import wraps
 
 
 class Products(Resource, ProductModel):
@@ -19,9 +20,10 @@ class Products(Resource, ProductModel):
     @jwt_required
     def get(self):
         products = self.operation.get_all_products()
+        if not products:
+            return {"message": "No products yet"}
         return {
-            "status": "ok",
-            "Message": "Success",
+            "Message": "Successfully retrieved products",
             "Products": products
         }, 200
 

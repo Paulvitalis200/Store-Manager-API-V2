@@ -15,13 +15,12 @@ def admin_only(f):
     def wrapper_function(*args, **kwargs):
         user = UserModel().find_by_email(get_jwt_identity())
         if user[4] != "admin":
-            return {'message': 'Unauthorized access, you must be an admin to access this level'}, 401
+            return {'message': 'Unauthorized access, you must be an admin to access this function'}, 401
         return f(*args, **kwargs)
     return wrapper_function
 
 
 class UserRegistration(Resource):
-
     parser = reqparse.RequestParser()
     parser.add_argument('username', required=True, help='Username cannot be blank', type=str)
     parser.add_argument('email', required=True, help='Email cannot be blank')

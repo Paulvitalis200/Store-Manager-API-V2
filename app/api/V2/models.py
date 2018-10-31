@@ -54,29 +54,41 @@ class ProductModel():
         query = "SELECT * FROM products WHERE id = '{}';".format(id)
         self.curr.execute(query)
         product = self.curr.fetchone()
+        product_format = {
+            "product id": id,
+            "name": product[1],
+            "price": product[2],
+            "available_stock": product[3],
+            "min_stock": product[4],
+            "category": product[5]
+        }
         if product is None:
             return {"message": "No product with that id at the moment"}, 404
         else:
             return {
-                "message": "Product retrieved successfully",
-                "product id": product[0],
-                "name": product[1],
-                "price": product[2],
-                "available_stock": product[3],
-                "min_stock": product[4],
-                "category": product[5]
+                "message": "Product retrieved successfully", "product": product_format
             }, 200
 
     def delete_product(self, id):
-        product = self.get_each_product(id)
-        if not product:
+        current = "SELECT * FROM products WHERE id = '{}'".format(id)
+        self.curr.execute(current)
+        product = self.curr.fetchone()
+        if not current:
             return {"message": "Product not found"}, 404
         query = "DELETE FROM products WHERE id= '{}'".format(id)
         self.curr.execute(query)
         self.db.commit()
+        product_format = {
+            "product id": product[0],
+            "name": product[1],
+            "price": product[2],
+            "available_stock": product[3],
+            "min_stock": product[4],
+            "category": product[5]
+        }
         return {
             "message": "Deleted",
-            "product deleted": product[0]
+            "product": product_format
         }, 200
 
     def get_item_if_exists(self, name, price, available_stock, min_stock, category):
