@@ -35,7 +35,6 @@ class Products(Resource, ProductModel):
         try:
             product = self.operation.get_item_if_exists(name, price, quantity, category)
             return product
-
         except Exception as my_exception:
             print(my_exception)
             return {'message': 'Something went wrong.'}, 500

@@ -27,15 +27,6 @@ class ProductModel():
         self.db.commit()
         return payload
 
-        # db = db_connection()
-        # curr = db.cursor()
-        # query = """
-        #     INSERT INTO products (name, price, quantity, category) VALUES
-        #     ('{}', '{}', '{}', '{}');
-        # """.format(name, price, quantity, category)
-        # curr.execute(query)
-        # db.commit()
-
     def get_all_products(self):
         self.curr.execute(
             """
@@ -64,7 +55,7 @@ class ProductModel():
         if product is None:
             return {"message": "No product with that id at the moment"}, 404
         else:
-            return {"message": "Product retrieved successfully", "product": product}
+            return {"message": "Product retrieved successfully", "product": product}, 200
 
     def delete_product(self, id):
         product = self.get_each_product(id)
@@ -84,7 +75,6 @@ class ProductModel():
                 "message": "Product created successfully",
                 "product": self.save(name, price, quantity, category)
             }, 201
-
         else:
             return {"message": "Product already exists"}, 400
 
