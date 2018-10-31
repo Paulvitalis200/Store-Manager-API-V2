@@ -33,7 +33,9 @@ class Products(Resource, ProductModel):
         category = args.get('category')
 
         try:
+
             product = self.operation.save(name, price, quantity, category)
+
             return {
                 'message': 'Product created successfully!',
                 'product': product,
