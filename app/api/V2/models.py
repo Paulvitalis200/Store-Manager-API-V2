@@ -10,7 +10,6 @@ class ProductModel():
     def __init__(self):
         self.db = db_connection()
         self.curr = self.db.cursor()
-        # self.close = close_connection(self.db)
 
     def save(self, name, price, quantity, category):
         payload = {
