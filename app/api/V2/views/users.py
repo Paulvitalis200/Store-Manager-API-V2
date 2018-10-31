@@ -38,7 +38,7 @@ class UserRegistration(Resource):
         role = args.get('role').strip()
 
         if role not in ["attendant", "admin"]:
-            return {"message": "Error"}
+            return {"message": "Please insert a role of 'attendant' or an 'admin' only."}
         try:
             current_user_by_username = UserModel.find_by_username(username)
             current_user_by_email = UserModel.find_by_email(email)
