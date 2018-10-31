@@ -2,7 +2,7 @@ from flask import Blueprint
 from flask_restful import Api
 
 from .views.products import Products, SingleProduct
-from .views.users import UserRegistration, UserLogin
+from .views.users import UserRegistration, UserLogin, UserLogout
 
 my_apis = Blueprint("resources.api", __name__, url_prefix='/api/v2')
 api = Api(my_apis)
@@ -28,4 +28,10 @@ api.add_resource(
     UserLogin,
     "/login",
     endpoint="login"
+)
+
+api.add_resource(
+    UserLogout,
+    "/logout",
+    endpoint="logout"
 )

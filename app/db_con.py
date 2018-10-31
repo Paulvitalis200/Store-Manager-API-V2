@@ -58,7 +58,13 @@ def tables():
                     role text NOT NULL
                     )
                 """
-    queries = [products_table, sales_table, users_table]
+    tokens_table = """
+                CREATE TABLE IF NOT EXISTS tokens (
+                id serial PRIMARY KEY NOT NULL,
+                tokens varchar
+                )
+    """
+    queries = [products_table, sales_table, users_table, tokens_table]
     return queries
 
 
