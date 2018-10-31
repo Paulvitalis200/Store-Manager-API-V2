@@ -104,14 +104,23 @@ class ProductModel():
             return {"message": "Product already exists"}, 400
 
     def update_product(self, id, price, available_stock, min_stock, category):
-        product = self.get_each_product(id)
+        current = "SELECT * FROM products WHERE id = '{}'".format(id)
+        self.curr.execute(current)
+        product = self.curr.fetchone()
         query = "UPDATE products SET  price='{}', available_stock='{}', min_stock='{}', category='{}' WHERE id='{}'".format(price, available_stock, min_stock, category, id)
         self.curr.execute(query)
         self.db.commit()
+        product_format = {
+            "product id": product[0],
+            "name": product[1],
+            "price": product[2],
+            "available_stock": product[3],
+            "min_stock": product[4],
+            "category": product[5]
+        }
         if not product:
             return {'message': "product doesn't exist"}, 404
-
-        return {"message": "Product updated", "product": product}, 200
+        return {"message": "Product updated", "product": product_format}, 200
 
     def get_by_name(self, name):
         """fetch a single product by product_name"""

@@ -57,9 +57,8 @@ class SingleProduct(Resource, ProductModel):
     @jwt_required
     def put(self, id):
         data = request.get_json()
-        name = data['name']
         price = data['price']
         available_stock = data['available_stock']
         category = data['category']
         min_stock = data['min_stock']
-        return ProductModel.update_product(self, id, name, price, available_stock, min_stock, category)
+        return ProductModel.update_product(self, id, price, available_stock, min_stock, category)
