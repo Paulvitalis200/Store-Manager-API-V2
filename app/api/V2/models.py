@@ -55,7 +55,13 @@ class ProductModel():
         if product is None:
             return {"message": "No product with that id at the moment"}, 404
         else:
-            return {"message": "Product retrieved successfully", "product": product}, 200
+            return {
+                "message": "Product retrieved successfully",
+                "product id": product[0],
+                "name": product[1],
+                "price": product[2],
+                "quantity": product[3]
+            }, 200
 
     def delete_product(self, id):
         product = self.get_each_product(id)
