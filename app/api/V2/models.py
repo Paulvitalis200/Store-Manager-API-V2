@@ -1,13 +1,13 @@
-from app.db_con import db_connection, close_connection
 import psycopg2.extras
+
 from passlib.hash import pbkdf2_sha256 as sha256
 from flask_jwt_extended import get_jwt_identity
 from functools import wraps
-from datetime import datetime
+
+from app.db_con import db_connection, close_connection
 
 
 class ProductModel():
-
     def __init__(self):
         self.db = db_connection()
         self.curr = self.db.cursor()
@@ -36,7 +36,6 @@ class ProductModel():
         )
         data = self.curr.fetchall()
         result = []
-
         for i, items in enumerate(data):
             id, name, price, available_stock, min_stock, category = items
             stuff = {
@@ -111,7 +110,6 @@ class ProductModel():
         query = "UPDATE products SET  price='{}', available_stock='{}', min_stock='{}', category='{}' WHERE id='{}'".format(price, available_stock, min_stock, category, id)
         self.curr.execute(query)
         self.db.commit()
-
         product_format = {
             "product id": product[0],
             "name": product[1],
@@ -148,7 +146,6 @@ class ProductModel():
 
 
 class UserModel:
-
     @staticmethod
     def create_admin():
         db = db_connection()
@@ -224,7 +221,6 @@ class SalesModel():
         )
         sales = self.curr.fetchall()
         result = []
-
         for i, items in enumerate(sales):
             id, attendant_name, name, quantity, price, total_price = items
             stuff = {
