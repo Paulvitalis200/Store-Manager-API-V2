@@ -127,19 +127,19 @@ class ProductModel():
         return product
 
     def get_price(self, name):
-        """Get a single product by product_name"""
+        """Get a single product by price"""
         self.curr.execute("SELECT * FROM products WHERE name = %s", (name,))
         product = self.curr.fetchone()
         return product[2]
 
     def get_min_stock(self, name):
-        """Get a single product by product_name"""
+        """Get a single product by minimum stock"""
         self.curr.execute("SELECT * FROM products WHERE name = %s", (name,))
         product = self.curr.fetchone()
         return product[4]
 
     def get_available_quantity(self, name):
-        """Get a single product by product_name"""
+        """Get a single product by available quantity"""
         self.curr.execute("SELECT * FROM products WHERE name = %s", (name,))
         product = self.curr.fetchone()
         return product[3]

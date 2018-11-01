@@ -10,12 +10,7 @@ production_url = os.getenv('PRODUCTION_URL')
 
 def db_connection():
     try:
-        if config_name == 'development':
-            conn = psycopg2.connect(dev_url)
-        if config_name == 'testing':
-            conn = psycopg2.connect(test_url)
-        if config_name == 'production':
-            conn = psycopg2.connect(production_url)
+        conn = psycopg2.connect(dev_url)
         return conn
     except (Exception, psycopg2.DatabaseError) as error:
         return ('Failed to connect', error)

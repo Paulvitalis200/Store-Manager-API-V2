@@ -4,7 +4,7 @@ from app import create_app
 from flask import redirect
 
 config_name = os.getenv('APP_SETTINGS')
-app = create_app(config_name)
+app = create_app('development')
 
 
 @app.route("/documentation")
