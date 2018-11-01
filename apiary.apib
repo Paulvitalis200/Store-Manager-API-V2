@@ -29,7 +29,7 @@ To begin, remember to add /api/v2 to the heroku link or the localhost link befor
 
 ### Login admin [POST]
 
-https://localhost.com/api/v2/login
+https://localhost.com/api/v2/auth/login
 
 
 Log in with the admin's email and password with the following credentials.
@@ -48,7 +48,7 @@ Log in with the admin's email and password with the following credentials.
 
     + Headers
 
-            Location: api/v2/login
+            Location: api/v2/auth/login
 
     + Body
 
@@ -63,13 +63,13 @@ Log in with the admin's email and password with the following credentials.
 
 The admin can register a store attendant using the following endpoint.
 
-https://localhost.com/api/v2/register
+https://localhost.com/api/v2/auth/signup
 
 + Request 200 (application/json)
 
     + Headers
 
-            Location: api/v2/register
+            Location: api/v2/auth/signup
 
     + Body
 
@@ -85,7 +85,7 @@ https://localhost.com/api/v2/register
 
     + Headers
             
-            Location: api/v2/register
+            Location: api/v2/auth/signup
             
     + Body
            
@@ -95,7 +95,7 @@ https://localhost.com/api/v2/register
                 
 ### Login attendant [POST]
 
-https://localhost.com/api/v2/login
+https://localhost.com/api/v2/auth/login
 
 
 Log in with the attendant's email and password.
@@ -113,7 +113,7 @@ Log in with the attendant's email and password.
 
     + Headers
 
-            Location: api/v2/login
+            Location: api/v2/auth/login
 
     + Body
 
