@@ -1,80 +1,290 @@
 FORMAT: 1A
-HOST: http://polls.apiblueprint.org/
+https://localhost.com
 
 # Store-manager-api-v2
 
-Polls is a simple API allowing consumers to view polls and vote in them.
+Store Manager is a web application that helps store owners
+manage sales and product inventory records.
+This application is meant for use in a single store.
 
-## Questions Collection [/questions]
+## ENDPOINTS
+**GET /products - Fetch all products Get all available products.**
 
-### List All Questions [GET]
+**GET /products/productId - Fetch a single product record**
 
-+ Response 200 (application/json)
+**GET /sales - Fetch all sale records Get all sale records.**
 
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
-            }
-        ]
+**GET /sales/saleId - Fetch a single sale record**
 
-### Create a New Question [POST]
+**POST /products - Create a product**
 
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
+**POST /sales - Create a sale order**
+
+**POST /login - Login attendant/admin**
+
+**POST /register - Admin Register user**
+
+To begin, remember to add /api/v2 to the heroku link or the localhost link before inserting the endpoints
+
+
+### Login admin [POST]
+
+https://localhost.com/api/v2/login
+
+
+Log in with the admin's email and password with the following credentials.
 
 + Request (application/json)
 
-        {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
-        }
+        
+            {
+                 
+                "email": "vitalispaul48@live.com,
+                "password": "manu2012"
+            }
+        
 
 + Response 201 (application/json)
 
     + Headers
 
-            Location: /questions/2
+            Location: api/v2/login
 
     + Body
 
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
+            
+               {
+                 
+                "email": "vitalispaul48@live.com,
+                "password": "manu2012"
+                 }
+
+### Register a user[POST]
+
+The admin can register a store attendant using the following endpoint.
+
+https://localhost.com/api/v2/register
+
++ Request 200 (application/json)
+
+    + Headers
+
+            Location: api/v2/register
+
+    + Body
+
+            
+               {
+                 "username": "WendyOtieno",
+                 "email": "wendyotieno34@gmail.com",
+                 "password": "manu2012",
+                 "role": "attendant"
             }
+            
++ Response 201 (application/json)
+
+    + Headers
+            
+            Location: api/v2/register
+            
+    + Body
+           
+                {
+                "message": "user registered successfully"
+                }
+                
+### Login attendant [POST]
+
+https://localhost.com/api/v2/login
+
+
+Log in with the attendant's email and password.
+
++ Request (application/json)
+
+        
+            {
+                 "email": "wendyotieno34@gmail.com",
+                 "password": "manu2012",
+            }
+        
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: api/v2/login
+
+    + Body
+
+            
+               {
+                "message" : "Login successful"
+                "access_token": "1jioj1d89j9rwjd;'sd,;sdj9sd8j"
+                }
+
+                
+### Create a Product[POST]
+
+The admin can post a product
+
+https://localhost.com/api/v2/products
+
++ Request (application/json)
+
+        
+            {
+                "name": "Nike",
+                "price": 300, 
+                "available_stock": 300,
+                "min_stock": 20,
+                "category": "Shoes"
+            }
+        
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: api/v2/products
+
+    + Body
+
+            
+               {
+                    "Message": "Successfully posted products",
+                     "Products": [
+                                {
+                                    "product id": 1,
+                                    "name": "Nike",
+                                    "price": 300,
+                                    "available_stock": 300,
+                                    "min_stock": 20,
+                                    "category": "Shoes"
+                                }
+                }
+         
+            
+            
+### Get all Products [GET]
+The admin or store attendant can retrieve all products 
+https://localhost.com/api/v1/products
+
++ Response 200 (application/json)
+
+        {
+    "Message": "Successfully retrieved products",
+    "Products": [
+        {
+            "product id": 1,
+            "name": "Nike",
+            "price": 300,
+            "available_stock": 300,
+            "min_stock": 20,
+            "category": "Shoes"
+        },
+        {
+            "product id": 2,
+            "name": "Cupboard",
+            "price": 30303030,
+            "available_stock": 200,
+            "min_stock": 500,
+            "category": "Furniture"
+        }
+    ]
+}
+
+
+### Get single product [GET]
+THe admin or store attendant can get a single product
+
+ + Headers
+
+            Location: api/v2/products/<productid>
+            https://localhost.com/api/v2/<productid>
+            
++ Response 200 (application/json)
+
+        
+           {
+            "message": "Product retrieved successfully",
+            "product": {
+                "product id": 1,
+                "name": "Nike",
+                "price": 300,
+                "available_stock": 200,
+                "min_stock": 20,
+                "category": "Furniture"
+            }
+        }
+
+### Create a sale recrod[POST]
+
+A store attendant can post a sale 
+
+https://localhost.com/api/v2/sales
+
++ Request (application/json)
+
+        
+{
+    "name": "Nike",
+    "quantity" : "20"
+    }
+        
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: api/v2/sales
+
+    + Body
+
+            
+            {
+    "message": "Sale successful",
+    "remaining quantity": 260
+}
+
+            
+### Get all sales records [GET]
+https://localhost.com/api/v2/sales
+The attendant can get all the sale records
++ Response 200 (application/json)
+
+{
+    "message": "Successfully retrieved the sales records",
+    "Products": [
+        {
+            "sale id": 1,
+            "product_name": "Nike",
+            "quantity": 20,
+            "price": 300,
+            "total_price": 6000,
+            "attendant_name": "Manu2012"
+        }
+    ]
+}
+
+### Get single sale records [GET]
+THe sale attendant can get a single sale record
+ + Headers
+
+            Location: api/v2/sales/<salesid>
+            https://localhost.com/api/v2/sales/<salesid>
+            
++ Response 200 (application/json)
+
+        
+{
+    "message": "Sale record retrieved successfully",
+    "sale": {
+        "product id": 1,
+        "attendant_name": "Manu2012",
+        "product_name": "Nike",
+        "quantity": 20,
+        "price": 300,
+        "total_price": 6000
+    }
+}
