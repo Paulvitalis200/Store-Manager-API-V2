@@ -42,7 +42,7 @@ class Sales(Resource, SalesModel):
             return {"message": "Product does not exist"}, 404
 
         price = ProductModel().get_price(name)
-        min_stock = ProductModel().get_min_stock(name)
+        minimum_stock = ProductModel().get_min_stock(name)
         available_quantity = ProductModel().get_available_quantity(name)
 
         if quantity > available_quantity:
@@ -51,7 +51,7 @@ class Sales(Resource, SalesModel):
         updated_quantity = available_quantity - quantity
 
         self.curr.execute(
-            """ UPDATE products SET available_stock= %s WHERE name =%s""",
+            """ UPDATE products SET inventory= %s WHERE name =%s""",
             (updated_quantity, name))
         self.conn.commit()
 

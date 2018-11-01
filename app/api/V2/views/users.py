@@ -1,5 +1,3 @@
-import datetime
-
 from flask_restful import Resource, reqparse
 from flask import make_response, jsonify
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_raw_jwt

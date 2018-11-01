@@ -10,8 +10,8 @@ parser = reqparse.RequestParser()
 parser.add_argument('name', required=True, help='Product name cannot be blank', type=str)
 parser.add_argument('price', required=True, help=' Product price cannot be blank or a word', type=int)
 parser.add_argument('category', required=True, help="Category must be specified", type=str)
-parser.add_argument('available_stock', required=True, help="Define available stock", type=int)
-parser.add_argument('min_stock', required=True, help="Define minimum stock", type=int)
+parser.add_argument('inventory', required=True, help="Define available stock", type=int)
+parser.add_argument('minimum_stock', required=True, help="Define minimum stock", type=int)
 
 
 class Products(Resource, ProductModel):
@@ -35,10 +35,10 @@ class Products(Resource, ProductModel):
         name = args.get('name').strip()  # removes whitespace
         price = args.get('price')
         category = args.get('category')
-        available_stock = args.get('available_stock')
-        min_stock = args.get('min_stock')
+        inventory = args.get('inventory')
+        minimum_stock = args.get('minimum_stock')
         try:
-            product = self.operation.get_item_if_exists(name, price, available_stock, min_stock, category)
+            product = self.operation.get_item_if_exists(name, price, inventory, minimum_stock, category)
             return product
         except Exception as my_exception:
             print(my_exception)
@@ -60,7 +60,7 @@ class SingleProduct(Resource, ProductModel):
         name = args.get('name')
         price = args.get('price')
         category = args.get('category')
-        available_stock = args.get('available_stock')
-        min_stock = args.get('min_stock')
+        inventory = args.get('inventory')
+        minimum_stock = args.get('minimum_stock')
 
-        return ProductModel.update_product(self, id, price, available_stock, min_stock, category)
+        return ProductModel.update_product(self, id, price, inventory, minimum_stock, category)
