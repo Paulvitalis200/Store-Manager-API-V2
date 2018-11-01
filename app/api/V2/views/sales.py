@@ -67,7 +67,7 @@ class Sales(Resource, SalesModel):
             return {'message': 'Something went wrong.'}, 500
 
 
-class SingleSaleAdmin(Resource, SalesModel):
+class SingleSale(Resource, SalesModel):
     @jwt_required
     def get(self, id):
         return SalesModel().get_each_sale(id)
