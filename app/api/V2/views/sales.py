@@ -57,7 +57,7 @@ class Sales(Resource, SalesModel):
         try:
             total_price = price * quantity
             """Add a sale to the created table products """
-            sale_query = "INSERT INTO sales(attendant_name,product_name,quantity,price,total_price) VALUES( %s, %s, %s, %s, %s)"
+            sale_query = "INSERT INTO sales(sold_by,product_name,quantity,price,total_price) VALUES( %s, %s, %s, %s, %s)"
             sale_payload = (attendant_name, name, quantity, price, total_price)
             self.curr.execute(sale_query, sale_payload)
             self.conn.commit()
