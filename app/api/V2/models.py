@@ -54,6 +54,8 @@ class ProductModel():
         query = "SELECT * FROM products WHERE id = '{}';".format(id)
         self.curr.execute(query)
         product = self.curr.fetchone()
+        if not product:
+            return {"message": "No product with that id at the moment"}, 404
         product_format = {
             "product id": product[0],
             "name": product[1],
@@ -62,19 +64,16 @@ class ProductModel():
             "min_stock": product[4],
             "category": product[5]
         }
-        if not product:
-            return {"message": "No product with that id at the moment"}, 404
-        else:
-            return {
-                "message": "Product retrieved successfully", "product": product_format
-            }, 200
+        return {
+            "message": "Product retrieved successfully", "product": product_format
+        }, 200
 
     def delete_product(self, id):
         current = "SELECT * FROM products WHERE id = '{}'".format(id)
         self.curr.execute(current)
         product = self.curr.fetchone()
-        if not current:
-            return {"message": "Product not found"}, 404
+        if not product:
+            return {"message": "Product with that ID does not exist."}, 404
         query = "DELETE FROM products WHERE id= '{}'".format(id)
         self.curr.execute(query)
         self.db.commit()
@@ -107,9 +106,12 @@ class ProductModel():
         current = "SELECT * FROM products WHERE id = '{}'".format(id)
         self.curr.execute(current)
         product = self.curr.fetchone()
+        if not product:
+            return {'message': "product doesn't exist"}, 404
         query = "UPDATE products SET  price='{}', available_stock='{}', min_stock='{}', category='{}' WHERE id='{}'".format(price, available_stock, min_stock, category, id)
         self.curr.execute(query)
         self.db.commit()
+
         product_format = {
             "product id": product[0],
             "name": product[1],
@@ -118,8 +120,6 @@ class ProductModel():
             "min_stock": product[4],
             "category": product[5]
         }
-        if not product:
-            return {'message': "product doesn't exist"}, 404
         return {"message": "Product updated", "product": product_format}, 200
 
     def get_by_name(self, name):
