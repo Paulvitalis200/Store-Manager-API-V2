@@ -1,9 +1,10 @@
 from flask_restful import Resource, reqparse
 from flask import request, json, jsonify, make_response
 from flask_jwt_extended import jwt_required
+from functools import wraps
+
 from app.api.V2.models import ProductModel
 from app.api.V2.views.users import admin_only
-from functools import wraps
 
 
 class Products(Resource, ProductModel):
@@ -35,7 +36,6 @@ class Products(Resource, ProductModel):
         category = args.get('category')
         available_stock = args.get('available_stock')
         min_stock = args.get('min_stock')
-
         try:
             product = self.operation.get_item_if_exists(name, price, available_stock, min_stock, category)
             return product
@@ -45,7 +45,6 @@ class Products(Resource, ProductModel):
 
 
 class SingleProduct(Resource, ProductModel):
-
     @jwt_required
     def get(self, id):
         return ProductModel.get_each_product(self, id)

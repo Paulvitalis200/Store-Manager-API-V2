@@ -76,9 +76,7 @@ def destroy_tables():
     """ Delete tables"""
     conn = db_connection()
     curr = conn.cursor()
-
     users = """DROP TABLE IF EXISTS users CASCADE"""
     sales = """DROP TABLE IF EXISTS sales CASCADE"""
     product = """DROP TABLE IF EXISTS products CASCADE"""
-
     conn.commit()

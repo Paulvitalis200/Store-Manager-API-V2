@@ -1,11 +1,9 @@
-from app.api.V2.models import UserModel
 from flask_restful import Resource, reqparse
 from flask import make_response, jsonify
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_raw_jwt
-import datetime
-
 from functools import wraps
 
+from app.api.V2.models import UserModel
 from app.db_con import db_connection
 
 
@@ -82,7 +80,6 @@ class UserLogin(Resource):
 
 
 class UserLogout(Resource):
-
     def __init__(self):
         self.db = db_connection()
         self.curr = self.db.cursor()
