@@ -19,7 +19,6 @@ class Sales(Resource, SalesModel):
 
     @jwt_required
     def get(self):
-
         sales = self.operation.get_all_sales()
         if not sales:
             return {"message": "No sales records yet"}

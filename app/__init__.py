@@ -9,12 +9,12 @@ def create_app(config):
 
     from instance.config import app_config
     app.config.from_object(app_config[config])
+
     app.config['JWT_SECRET_KEY'] = 'jwt-secret-string'
     app.config['JWT_BLACKLIST_ENABLED'] = True
     app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access']
 
     db_connection()
-    # destroy_tables()
     create_tables()
     UserModel.create_admin()
 

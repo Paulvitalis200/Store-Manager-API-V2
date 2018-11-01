@@ -1,16 +1,19 @@
+# import os
+
+# environment = os.environ['APP_SETTINGS']
+# print(environment)
+
+
 import psycopg2
 from psycopg2 import Error
 import os
 
-config_name = os.getenv('APP_SETTINGS')
-dev_url = os.getenv('DEVELOPMENT_URL')
-test_url = os.getenv('TESTING_URL')
-production_url = os.getenv('PRODUCTION_URL')
+db_url = os.getenv('DATABASE_URL')
 
 
 def db_connection():
     try:
-        conn = psycopg2.connect(dev_url)
+        conn = psycopg2.connect(db_url)
         return conn
     except (Exception, psycopg2.DatabaseError) as error:
         return ('Failed to connect', error)
