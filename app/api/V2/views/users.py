@@ -1,21 +1,11 @@
+import datetime
+
 from flask_restful import Resource, reqparse
 from flask import make_response, jsonify
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_raw_jwt
-from functools import wraps
 
 from app.api.V2.models import UserModel
 from app.db_con import db_connection
-
-
-def admin_only(f):
-    ''' Restrict access if not admin '''
-    @wraps(f)
-    def wrapper_function(*args, **kwargs):
-        user = UserModel().find_by_email(get_jwt_identity())
-        if user[4] != "admin":
-            return {'message': 'Unauthorized access, you must be an admin to access this function'}, 401
-        return f(*args, **kwargs)
-    return wrapper_function
 
 
 class UserRegistration(Resource):
@@ -26,17 +16,20 @@ class UserRegistration(Resource):
     parser.add_argument('role', required=True, help="Role cannot be blank", type=str)
 
     @jwt_required
-    @admin_only
     def post(self):
         args = UserRegistration.parser.parse_args()
         password = UserModel.generate_hash(args.get('password'))
         username = args.get('username').strip()
         email = args.get('email').strip()
         role = args.get('role').strip()
+        user = UserModel.find_by_email(get_jwt_identity())
+        if user[4] != "admin":
+            return {"message": "You do not have authorization to access this feature"}
 
         if role not in ["attendant", "admin"]:
             return {"message": "Please insert a role of 'attendant' or an 'admin' only."}
         try:
+
             current_user_by_username = UserModel.find_by_username(username)
             current_user_by_email = UserModel.find_by_email(email)
 

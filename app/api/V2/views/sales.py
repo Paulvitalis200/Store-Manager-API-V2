@@ -3,7 +3,7 @@ from flask import request, json, jsonify, make_response
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from app.api.V2.models import SalesModel, ProductModel, UserModel
-from app.api.V2.views.users import admin_only
+
 from app.db_con import db_connection, close_connection
 
 
@@ -19,6 +19,7 @@ class Sales(Resource, SalesModel):
 
     @jwt_required
     def get(self):
+
         sales = self.operation.get_all_sales()
         if not sales:
             return {"message": "No sales records yet"}
