@@ -6,14 +6,15 @@ from functools import wraps
 from app.api.V2.models import ProductModel
 from app.api.V2.views.users import admin_only
 
+parser = reqparse.RequestParser()
+parser.add_argument('name', required=True, help='Product name cannot be blank', type=str)
+parser.add_argument('price', required=True, help=' Product price cannot be blank or a word', type=int)
+parser.add_argument('category', required=True, help="Category must be specified", type=str)
+parser.add_argument('available_stock', required=True, help="Define available stock", type=int)
+parser.add_argument('min_stock', required=True, help="Define minimum stock", type=int)
+
 
 class Products(Resource, ProductModel):
-    parser = reqparse.RequestParser()
-    parser.add_argument('name', required=True, help='Product name cannot be blank', type=str)
-    parser.add_argument('price', required=True, help=' Product price cannot be blank or a word', type=int)
-    parser.add_argument('category', required=True, help="Category must be specified", type=str)
-    parser.add_argument('available_stock', required=True, help="Define available stock", type=int)
-    parser.add_argument('min_stock', required=True, help="Define minimum stock", type=int)
 
     def __init__(self):
         self.operation = ProductModel()
@@ -30,7 +31,7 @@ class Products(Resource, ProductModel):
 
     @jwt_required
     def post(self):
-        args = Products.parser.parse_args()
+        args = parser.parse_args()
         name = args.get('name').strip()  # removes whitespace
         price = args.get('price')
         category = args.get('category')
@@ -45,7 +46,7 @@ class Products(Resource, ProductModel):
 
 
 class SingleProduct(Resource, ProductModel):
-    @jwt_required
+
     def get(self, id):
         return ProductModel.get_each_product(self, id)
 
@@ -55,9 +56,11 @@ class SingleProduct(Resource, ProductModel):
 
     @jwt_required
     def put(self, id):
-        data = request.get_json()
-        price = data['price']
-        available_stock = data['available_stock']
-        category = data['category']
-        min_stock = data['min_stock']
+        args = parser.parse_args()
+        name = args.get('name')
+        price = args.get('price')
+        category = args.get('category')
+        available_stock = args.get('available_stock')
+        min_stock = args.get('min_stock')
+
         return ProductModel.update_product(self, id, price, available_stock, min_stock, category)

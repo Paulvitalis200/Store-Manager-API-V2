@@ -106,8 +106,8 @@ class ProductModel():
         self.curr.execute(current)
         product = self.curr.fetchone()
         if not product:
-            return {'message': "product doesn't exist"}, 404
-        query = "UPDATE products SET  price='{}', available_stock='{}', min_stock='{}', category='{}' WHERE id='{}'".format(price, available_stock, min_stock, category, id)
+            return {'message': "The product doesn't exist"}, 404
+        query = "UPDATE products SET name='{}' price='{}', available_stock='{}', min_stock='{}', category='{}' WHERE id='{}'".format(name, price, available_stock, min_stock, category, id)
         self.curr.execute(query)
         self.db.commit()
         product_format = {
