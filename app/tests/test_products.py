@@ -12,6 +12,9 @@ class BaseTest(unittest.TestCase):
     def test_input(self):
         pass
 
+    def test_empty_products(self):
+        pass
+
 
 if __name__ == '__main__':
     unittest.main()
