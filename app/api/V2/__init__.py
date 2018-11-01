@@ -21,19 +21,19 @@ api.add_resource(
 
 api.add_resource(
     UserRegistration,
-    "/register",
-    endpoint="register"
+    "/auth/signup",
+    endpoint="signup"
 )
 
 api.add_resource(
     UserLogin,
-    "/login",
+    "/auth/login",
     endpoint="login"
 )
 
 api.add_resource(
     UserLogout,
-    "/logout",
+    "/auth/logout",
     endpoint="logout"
 )
 

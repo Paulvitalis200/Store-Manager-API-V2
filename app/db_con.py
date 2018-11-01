@@ -1,19 +1,28 @@
 import psycopg2
 from psycopg2 import Error
+import os
+
+config_name = os.getenv('APP_SETTINGS')
+dev_url = os.getenv('DEVELOPMENT_URL')
+test_url = os.getenv('TESTING_URL')
+production_url = os.getenv('PRODUCTION_URL')
 
 
 def db_connection():
     try:
-        conn = psycopg2.connect(
-            user="postgres",
-            password="manu2012",
-            host="127.0.0.1",
-            port="5432",
-            database="store_manager_api"
-        )
+        if config_name == 'development':
+            conn = psycopg2.connect(dev_url)
+        if config_name == 'testing':
+            conn = psycopg2.connect(test_url)
+        if config_name == 'production':
+            conn = psycopg2.connect(production_url)
         return conn
     except (Exception, psycopg2.DatabaseError) as error:
         return ('Failed to connect', error)
+
+
+conn = db_connection()
+print(conn)
 
 
 def close_connection(db_conn):
