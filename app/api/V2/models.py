@@ -238,17 +238,20 @@ class SalesModel():
         query = "SELECT * FROM sales WHERE id = '{}';".format(id)
         self.curr.execute(query)
         sale = self.curr.fetchone()
+        sale_format = {
+            "product id": sale[0],
+            "attendant_name": sale[1],
+            "product_name": sale[2],
+            "quantity": sale[3],
+            "price": sale[4],
+            "total_price": sale[5]
+        }
         if sale is None:
             return {"message": "No sale record with that id at the moment"}, 404
         else:
             return {
                 "message": "Sale record retrieved successfully",
-                "product id": sale[0],
-                "attendant_name": sale[1],
-                "product_name": sale[2],
-                "quantity": sale[3],
-                "price": sale[4],
-                "total_price": sale[5]
+                "sale": sale_format
             }, 200
 
     def fetch_all_sales_attendant_name(self, attendant_name):
