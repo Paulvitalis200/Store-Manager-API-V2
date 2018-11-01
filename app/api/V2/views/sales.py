@@ -1,6 +1,7 @@
 from flask_restful import Resource, reqparse
 from flask import request, json, jsonify, make_response
 from flask_jwt_extended import jwt_required, get_jwt_identity
+
 from app.api.V2.models import SalesModel, ProductModel, UserModel
 from app.api.V2.views.users import admin_only
 from app.db_con import db_connection, close_connection
@@ -49,7 +50,8 @@ class Sales(Resource, SalesModel):
         updated_quantity = available_quantity - quantity
 
         self.curr.execute(
-            """ UPDATE products SET available_stock= %s WHERE name =%s""", (updated_quantity, name))
+            """ UPDATE products SET available_stock= %s WHERE name =%s""",
+            (updated_quantity, name))
         self.conn.commit()
 
         try:
@@ -60,14 +62,12 @@ class Sales(Resource, SalesModel):
             self.curr.execute(sale_query, sale_payload)
             self.conn.commit()
             return {'message': 'Sale successful', "remaining quantity": updated_quantity}, 201
-
         except Exception as my_exception:
             print(my_exception)
             return {'message': 'Something went wrong.'}, 500
 
 
 class SingleSaleAdmin(Resource, SalesModel):
-
     @jwt_required
     def get(self, id):
         return SalesModel().get_each_sale(id)

@@ -1,7 +1,8 @@
 import os
 
-
 # Base configuration
+
+
 class Config(object):
     DEBUG = False
     SECRET = os.getenv('STOREMANAGER_API_SECRET', 'Imnottellingyou')
