@@ -32,7 +32,10 @@ class Sales(Resource, SalesModel):
         args = Sales.parser.parse_args()
         name = args.get('name').strip()  # removes whitespace
         quantity = args.get('quantity')
-        attendant_name = UserModel().find_by_email(get_jwt_identity())[1]
+        print(get_jwt_identity())
+        sold_by = UserModel().find_by_email(get_jwt_identity())[1]
+        if not sold_by:
+            return {"message": "user"}
         product = ProductModel().get_by_name(name)
 
         if not product:
@@ -42,8 +45,6 @@ class Sales(Resource, SalesModel):
         min_stock = ProductModel().get_min_stock(name)
         available_quantity = ProductModel().get_available_quantity(name)
 
-        if available_quantity <= min_stock:
-            return {"message": "Cannot sell"}
         if quantity > available_quantity:
             return {"message": "The product is out of stock"}
 
@@ -56,9 +57,8 @@ class Sales(Resource, SalesModel):
 
         try:
             total_price = price * quantity
-            """Add a sale to the created table products """
-            sale_query = "INSERT INTO sales(sold_by,product_name,quantity,price,total_price) VALUES( %s, %s, %s, %s, %s)"
-            sale_payload = (attendant_name, name, quantity, price, total_price)
+            sale_query = "INSERT INTO sales(sold_by, product_name, quantity, price, total_price) VALUES( %s, %s, %s, %s, %s)"
+            sale_payload = (sold_by, name, quantity, price, total_price)
             self.curr.execute(sale_query, sale_payload)
             self.conn.commit()
             return {'message': 'Sale successful', "remaining quantity": updated_quantity}, 201

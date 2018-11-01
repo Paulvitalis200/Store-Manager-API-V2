@@ -118,7 +118,7 @@ class ProductModel():
             "min_stock": product[4],
             "category": product[5]
         }
-        return {"message": "Product updated", "product": product_format}, 200
+        return {"message": "Product updated", "product": product_format}, 202
 
     def get_by_name(self, name):
         """fetch a single product by product_name"""
