@@ -1,7 +1,7 @@
 from app.api.V2.models import UserModel
 from flask_restful import Resource, reqparse
 from flask import make_response, jsonify
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, get_jwt_identity
 import datetime
 
 

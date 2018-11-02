@@ -15,6 +15,7 @@ def db_connection():
     except (Exception, psycopg2.DatabaseError) as error:
         return ('Failed to connect', error)
 
+
 def close_connection(db_conn):
     db_conn.commit()
     db_conn.close()
@@ -51,7 +52,7 @@ def tables():
     users_table = """
                     CREATE TABLE IF NOT EXISTS users (
                     id serial PRIMARY KEY NOT NULL,
-                    username text NOT NULL,
+                    username text UNIQUE NOT NULL,
                     email text NOT NULL,
                     password text NOT NULL,
                     role text NOT NULL
@@ -62,4 +63,12 @@ def tables():
 
 
 def destroy_tables():
-    pass
+    """ Delete tables"""
+    conn = db_connection()
+    curr = conn.cursor()
+
+    users = """DROP TABLE IF EXISTS users CASCADE"""
+    sales = """DROP TABLE IF EXISTS sales CASCADE"""
+    product = """DROP TABLE IF EXISTS products CASCADE"""
+
+    conn.commit()

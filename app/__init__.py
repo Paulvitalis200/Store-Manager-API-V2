@@ -1,6 +1,7 @@
 from flask import Flask, Blueprint
 from flask_jwt_extended import JWTManager
-from app.db_con import db_connection, create_tables
+from app.db_con import db_connection, create_tables, destroy_tables
+from app.api.V2.models import UserModel
 
 
 def create_app(config):
@@ -11,7 +12,9 @@ def create_app(config):
     app.config['JWT_SECRET_KEY'] = 'jwt-secret-string'
 
     db_connection()
+    # destroy_tables()
     create_tables()
+    UserModel.create_admin()
 
     from .api.V2 import my_apis
     app.register_blueprint(my_apis)
