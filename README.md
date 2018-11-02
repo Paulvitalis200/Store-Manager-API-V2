@@ -78,11 +78,14 @@ Store owner can give admin rights to a store attendant.
 # EndPoint Functionality
 Method | URL | DESCRIPTION
 -------|-----|------------
-GET /products| http://localhost/api/v1/products | Fetch all products
-GET /products/productId |http://localhost/api/v1/products/<int: productId>| Fetch a single product record
-GET /sales |http://localhost/api/v1/sales|Fetch all sale records Get all sale records.
-GET /sales/saleId | http://localhost/api/v1/sales/<int: salesId> | Fetch a single sale record
-POST /products| http://localhost/api/v1/products | Create a product
-POST /sales | http://localhost/api/v1/sales | Create a sale order
+GET /products| http://localhost/api/v2/products | Fetch all products
+GET /products/productId |http://localhost/api/v2/products/<int: productId>| Fetch a single product record
+GET /sales |http://localhost/api/v2/sales|Fetch all sale records Get all sale records.
+GET /sales/saleId | http://localhost/api/v2/sales/<int: salesId> | Fetch a single sale record
+POST /products| http://localhost/api/v2/products | Create a product
+POST /sales | http://localhost/api/v2/sales | Create a sale order
+POST /auth/login | http://localhost/api/v2/auth/login | Log in a user
+POST /auth/signup | http://localhost/api/v2/auth/signup | Register a user
+POST /auth/logout | http://localhost/api/v2/auth/logout | Log out a user
 
 
