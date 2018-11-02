@@ -1,5 +1,6 @@
 from flask import Flask, Blueprint
 from flask_jwt_extended import JWTManager
+
 from app.db_con import db_connection, create_tables, destroy_tables
 from app.api.V2.models import UserModel
 

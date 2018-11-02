@@ -1,7 +1,6 @@
 from flask_restful import Resource, reqparse
 from flask import request, json, jsonify, make_response
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from functools import wraps
 
 from app.api.V2.models import ProductModel, UserModel
 
@@ -15,13 +14,11 @@ parser.add_argument('minimum_stock', required=True, help="Define minimum stock",
 
 
 class Products(Resource, ProductModel, UserModel):
-
     def __init__(self):
         self.operation = ProductModel()
 
     @jwt_required
     def get(self):
-
         products = self.operation.get_all_products()
         if not products:
             return {"message": "No products yet"}
@@ -50,7 +47,6 @@ class Products(Resource, ProductModel, UserModel):
 
 
 class SingleProduct(Resource, ProductModel, UserModel):
-
     def get(self, id):
         return ProductModel.get_each_product(self, id)
 

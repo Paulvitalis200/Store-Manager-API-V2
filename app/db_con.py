@@ -1,12 +1,8 @@
-# import os
-
-# environment = os.environ['APP_SETTINGS']
-# print(environment)
-
-
-import psycopg2
-from psycopg2 import Error
 import os
+import psycopg2
+
+from psycopg2 import Error
+
 
 db_url = os.getenv('DATABASE_URL')
 
