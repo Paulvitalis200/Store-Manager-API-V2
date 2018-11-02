@@ -10,7 +10,6 @@ class ProductModel():
     def __init__(self):
         self.db = db_connection()
         self.curr = self.db.cursor()
-        # self.close = close_connection(self.db)
 
     def save(self, name, price, quantity, category):
         payload = {
@@ -26,15 +25,6 @@ class ProductModel():
         self.curr.execute(query, payload)
         self.db.commit()
         return payload
-
-        # db = db_connection()
-        # curr = db.cursor()
-        # query = """
-        #     INSERT INTO products (name, price, quantity, category) VALUES
-        #     ('{}', '{}', '{}', '{}');
-        # """.format(name, price, quantity, category)
-        # curr.execute(query)
-        # db.commit()
 
     def get_all_products(self):
         self.curr.execute(
@@ -64,7 +54,13 @@ class ProductModel():
         if product is None:
             return {"message": "No product with that id at the moment"}, 404
         else:
-            return {"message": "Product retrieved successfully", "product": product}
+            return {
+                "message": "Product retrieved successfully",
+                "product id": product[0],
+                "name": product[1],
+                "price": product[2],
+                "quantity": product[3]
+            }, 200
 
     def delete_product(self, id):
         product = self.get_each_product(id)
@@ -74,6 +70,18 @@ class ProductModel():
         self.curr.execute(query)
         self.db.commit()
         return {"message": "Deleted", "product deleted": product}, 200
+
+    def get_item_if_exists(self, name, price, quantity, category):
+        query = "SELECT * FROM products WHERE name = '{}';".format(name)
+        self.curr.execute(query)
+        product = self.curr.fetchone()
+        if product is None:
+            return {
+                "message": "Product created successfully",
+                "product": self.save(name, price, quantity, category)
+            }, 201
+        else:
+            return {"message": "Product already exists"}, 400
 
     def update_product(self, id, name, quantity, price):
         product = self.get_each_product(id)
