@@ -19,7 +19,7 @@ class UserRegistration(Resource):
     @jwt_required
     def post(self):
         args = UserRegistration.parser.parse_args()
-        raw_password = args.get('password')
+        raw_password = args.get('password').strip()
         username = args.get('username').strip()
         email = args.get('email').strip()
         role = args.get('role').strip()

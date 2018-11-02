@@ -1,32 +1,25 @@
+import os
 import psycopg2
+
 from psycopg2 import Error
 from instance.config import Config, TestConfig
 import os
 
 
+db_url = os.getenv('DATABASE_URL')
+
+
 def db_connection():
     variable = os.getenv("APP_SETTINGS")
     try:
-        if variable == "production" or variable == "development":
-            conn = psycopg2.connect(
-                user=Config.USER,
-                password=Config.PASSWORD,
-                host=Config.HOST,
-                port=Config.PORT,
-                dbname=Config.DBNAME
-            )
-            return conn
-        else:
-            test_conn = psycopg2.connect(
-                user=Config.USER,
-                password=Config.PASSWORD,
-                host=Config.HOST,
-                port=Config.PORT,
-                dbname=TestConfig.DBNAME
-            )
-            return test_conn
+        conn = psycopg2.connect(db_url)
+        return conn
     except (Exception, psycopg2.DatabaseError) as error:
         return ('Failed to connect', error)
+
+
+conn = db_connection()
+print(conn)
 
 
 def close_connection(db_conn):

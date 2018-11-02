@@ -1,7 +1,11 @@
-from app import create_app
+import os
+
 from flask import redirect
 
-app = create_app(config='development')
+from app import create_app
+
+config = os.getenv('APP_SETTINGS')
+app = create_app('development')
 
 
 @app.route("/documentation")

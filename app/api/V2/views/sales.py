@@ -3,11 +3,10 @@ from flask import request, json, jsonify, make_response
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from app.api.V2.models import SalesModel, ProductModel, UserModel
-
 from app.db_con import db_connection, close_connection
 
 
-class Sales(Resource, SalesModel):
+class Sales(Resource, SalesModel, UserModel):
     parser = reqparse.RequestParser()
     parser.add_argument('name', required=True, help='Sales record name cannot be blank', type=str)
     parser.add_argument('quantity', required=True, help='Sales quantity cannot be blank or a word', type=int)
@@ -19,7 +18,6 @@ class Sales(Resource, SalesModel):
 
     @jwt_required
     def get(self):
-
         sales = self.operation.get_all_sales()
         if not sales:
             return {"message": "No sales records yet"}
@@ -33,10 +31,12 @@ class Sales(Resource, SalesModel):
         args = Sales.parser.parse_args()
         name = args.get('name').strip()  # removes whitespace
         quantity = args.get('quantity')
-        print(get_jwt_identity())
+        user = UserModel.find_by_email(get_jwt_identity())
+        if user[4] != "attendant":
+            return {"message": "You do not have authorization to access this feature"}
         sold_by = UserModel().find_by_email(get_jwt_identity())[1]
         if not sold_by:
-            return {"message": "user"}
+            return {"message": "Error. No sale record."}
         product = ProductModel().get_by_name(name)
 
         if not product:
@@ -47,7 +47,7 @@ class Sales(Resource, SalesModel):
         available_quantity = ProductModel().get_available_quantity(name)
 
         if quantity > available_quantity:
-            return {"message": "The product is out of stock"}
+            return {"message": "Not enough products in stock to sell"}, 400
 
         updated_quantity = available_quantity - quantity
 

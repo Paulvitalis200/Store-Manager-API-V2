@@ -101,13 +101,13 @@ class ProductModel():
         else:
             return {"message": "Product already exists"}, 400
 
-    def update_product(self, id, price, inventory, minimum_stock, category):
+    def update_product(self, id, name, price, inventory, minimum_stock, category):
         current = "SELECT * FROM products WHERE id = '{}'".format(id)
         self.curr.execute(current)
         product = self.curr.fetchone()
         if not product:
             return {'message': "product doesn't exist"}, 404
-        query = "UPDATE products SET  price='{}', inventory='{}', minimum_stock='{}', category='{}' WHERE id='{}'".format(price, inventory, minimum_stock, category, id)
+        query = "UPDATE products SET name='{}', price='{}', inventory='{}', minimum_stock='{}', category='{}' WHERE id='{}'".format(name, price, inventory, minimum_stock, category, id)
         self.curr.execute(query)
         self.db.commit()
         product_format = {
@@ -118,7 +118,7 @@ class ProductModel():
             "minimum_stock": product[4],
             "category": product[5]
         }
-        return {"message": "Product updated", "product": product_format}, 200
+        return {"message": "Product updated successfully!"}, 202
 
     def get_by_name(self, name):
         """Get a single product by product_name"""
@@ -127,19 +127,19 @@ class ProductModel():
         return product
 
     def get_price(self, name):
-        """Get a single product by product_name"""
+        """Get a single product by price"""
         self.curr.execute("SELECT * FROM products WHERE name = %s", (name,))
         product = self.curr.fetchone()
         return product[2]
 
     def get_min_stock(self, name):
-        """Get a single product by product_name"""
+        """Get a single product by minimum stock"""
         self.curr.execute("SELECT * FROM products WHERE name = %s", (name,))
         product = self.curr.fetchone()
         return product[4]
 
     def get_available_quantity(self, name):
-        """Get a single product by product_name"""
+        """Get a single product by available quantity"""
         self.curr.execute("SELECT * FROM products WHERE name = %s", (name,))
         product = self.curr.fetchone()
         return product[3]
