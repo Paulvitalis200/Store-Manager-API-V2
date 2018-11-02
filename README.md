@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Paulstar200/Store-Manager-API-V2.svg?branch=bg-tests-fix-161618639)](https://travis-ci.org/Paulstar200/Store-Manager-API-V2)
+!https://travis-ci.org/Paulstar200/Store-Manager-API-V2.svg?branch=bg-tests-fix-161618639!:https://travis-ci.org/Paulstar200/Store-Manager-API-V2
 [![Coverage Status](https://coveralls.io/repos/github/Paulstar200/Store-Manager-API-V2/badge.svg?branch=develop)](https://coveralls.io/github/Paulstar200/Store-Manager-API-V2?branch=develop)
 
 # Store-Manager-API-V2
