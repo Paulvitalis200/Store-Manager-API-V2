@@ -73,4 +73,4 @@ class SingleProduct(Resource, ProductModel, UserModel):
         user = UserModel.find_by_email(get_jwt_identity())
         if user[4] != "admin":
             return {"message": "You do not have authorization to access this feature"}
-        return ProductModel.update_product(self, id, price, inventory, minimum_stock, category)
+        return ProductModel.update_product(self, id, name, price, inventory, minimum_stock, category)
