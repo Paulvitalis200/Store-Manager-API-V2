@@ -49,17 +49,21 @@ def tables():
     products_table = """
                     CREATE TABLE IF NOT EXISTS products (
                     id serial PRIMARY KEY NOT NULL,
-                    name text NOT NULL,
+                    name text NOT NULL UNIQUE,
                     price integer NOT NULL,
-                    quantity integer NOT NULL,
-                    category text NOT NULL
+                    available_stock integer NOT NULL,
+                    min_stock integer NOT NULL,
+                    category text
                     )
                     """
     sales_table = """
                     CREATE TABLE IF NOT EXISTS sales (
-                    id serial PRIMARY KEY NOT NULL,
-                    description text NOT NULL,
-                    items text NOT NULL
+                    id serial PRIMARY KEY,
+                    sold_by varchar NOT NULL,
+                    product_name varchar NOT NULL,
+                    quantity integer NOT NULL,
+                    price integer NOT NULL,
+                    total_price integer
                     )
                  """
     users_table = """
