@@ -51,8 +51,8 @@ def tables():
                     id serial PRIMARY KEY NOT NULL,
                     name text NOT NULL UNIQUE,
                     price integer NOT NULL,
-                    available_stock integer NOT NULL,
-                    min_stock integer NOT NULL,
+                    inventory integer NOT NULL,
+                    minimum_stock integer NOT NULL,
                     category text
                     )
                     """
@@ -81,7 +81,13 @@ def tables():
                 tokens varchar
                 )
     """
-    queries = [products_table, sales_table, users_table, tokens_table]
+
+    fix = """CREATE EXTENSION IF NOT EXISTS citext;"""
+
+    alteration = """ALTER TABLE products ALTER COLUMN name TYPE citext;"""
+
+    queries = [products_table, sales_table, users_table, tokens_table, fix, alteration]
+
     return queries
 
 
@@ -89,9 +95,7 @@ def destroy_tables():
     """ Delete tables"""
     conn = db_connection()
     curr = conn.cursor()
-
     users = """DROP TABLE IF EXISTS users CASCADE"""
     sales = """DROP TABLE IF EXISTS sales CASCADE"""
     product = """DROP TABLE IF EXISTS products CASCADE"""
-
     conn.commit()
