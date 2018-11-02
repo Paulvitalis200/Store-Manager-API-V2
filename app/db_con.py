@@ -33,7 +33,8 @@ def tables():
                     id serial PRIMARY KEY NOT NULL,
                     name text NOT NULL,
                     price integer NOT NULL,
-                    quantity integer NOT NULL
+                    quantity integer NOT NULL,
+                    category text NOT NULL
                     )
                     """
     sales_table = """
@@ -48,7 +49,8 @@ def tables():
                     id serial PRIMARY KEY NOT NULL,
                     username text NOT NULL,
                     email text NOT NULL,
-                    password text NOT NULL
+                    password text NOT NULL,
+                    role text NOT NULL
                     )
                 """
     queries = [products_table, sales_table, users_table]
