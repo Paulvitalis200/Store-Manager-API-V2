@@ -15,6 +15,10 @@ def db_connection():
     except (Exception, psycopg2.DatabaseError) as error:
         return ('Failed to connect', error)
 
+def close_connection(db_conn):
+    db_conn.commit()
+    db_conn.close()
+
 
 def create_tables():
     conn = db_connection()

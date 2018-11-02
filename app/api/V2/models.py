@@ -1,6 +1,5 @@
-from app.db_con import db_connection
+from app.db_con import db_connection, close_connection
 import psycopg2.extras
-import json
 from passlib.hash import pbkdf2_sha256 as sha256
 
 
@@ -9,6 +8,7 @@ class ProductModel():
     def __init__(self):
         self.db = db_connection()
         self.curr = self.db.cursor()
+        #self.close = close_connection(self.db)
 
     def save(self, name, price, quantity, category):
         payload = {
@@ -22,22 +22,21 @@ class ProductModel():
                  VALUES (%(name)s, %(price)s, %(quantity)s, %(category)s);
                 """
         self.curr.execute(query, payload)
-        self.db.commit()
         return payload
 
     def get_all_products(self):
-        cur.execute(
+        self.curr.execute(
             """
             SELECT id, name, price, quantity, category FROM products;
             """
         )
-        data = cur.fetchall()
+        data = self.curr.fetchall()
         result = []
 
         for i, items in enumerate(data):
-            product_id, name, price, quantity, category = items
+            id, name, price, quantity, category = items
             stuff = {
-                "product id": int(product_id),
+                "product id": int(id),
                 "name": name,
                 "quantity": int(quantity),
                 "price": int(price),
@@ -46,8 +45,24 @@ class ProductModel():
             result.append(stuff)
         return result
 
-    def get_each_product():
-        pass
+    def get_each_product(self, id):
+        query = "SELECT * FROM products WHERE id = '{}';".format(id)
+        self.curr.execute(query)
+        product = self.curr.fetchone()
+        if product is None:
+            return {"message": "No product at the moment"}, 404
+        return product
+
+    def delete_product(self, id):
+        product = self.get_each_product(id)
+        if not product:
+            return {"message": "Product not found"}, 404
+        query = "DELETE FROM products WHERE id= '{}'".format(id)
+        self.curr.execute(query)
+        self.db.commit()
+        return {"message": "Deleted", "product deleted": product}, 200
+
+
 
 
 class UserModel:

@@ -16,7 +16,7 @@ class Products(Resource, ProductModel):
         self.operation = ProductModel()
 
     def get(self):
-        products = self.ops.get_all_products()
+        products = self.operation.get_all_products()
         return {
             "status": "ok",
             "Message": "Success",
@@ -24,13 +24,11 @@ class Products(Resource, ProductModel):
         }, 200
 
     def post(self):
-        data = request.get_json()
         args = Products.parser.parse_args()
         name = args.get('name').strip()  # removes whitespace
         price = args.get('price')
         quantity = args.get('quantity')
         category = args.get('category')
-        payload = ['name', 'price', 'quantity', 'category']
 
         try:
             product = self.operation.save(name, price, quantity, category)
@@ -44,5 +42,10 @@ class Products(Resource, ProductModel):
             print(my_exception)
             return {'message': 'Something went wrong.'}, 500
 
+
+class SingleProduct(Resource, ProductModel):
+    def get(self, id):
+        return ProductModel.get_each_product(self,id)
+
     def delete(self, id):
-        pass
+        return ProductModel.delete_product(self, id)

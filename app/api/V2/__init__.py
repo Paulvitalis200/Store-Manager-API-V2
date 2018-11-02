@@ -1,7 +1,7 @@
 from flask import Blueprint
 from flask_restful import Api
 
-from .views.products import Products
+from .views.products import Products, SingleProduct
 from .views.users import UserRegistration, UserLogin
 
 my_apis = Blueprint("resources.api", __name__, url_prefix='/api/v2')
@@ -14,9 +14,8 @@ api.add_resource(
 )
 
 api.add_resource(
-    Products,
-    "/products/<int:id>",
-    endpoint="update"
+    SingleProduct,
+    "/products/<int:id>"
 )
 
 api.add_resource(
