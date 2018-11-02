@@ -2,6 +2,7 @@ from flask_restful import Resource, reqparse
 from flask import request, json, jsonify, make_response
 from flask_jwt_extended import jwt_required
 from app.api.V2.models import ProductModel
+from app.api.V2.views.users import admin_only
 
 
 class Products(Resource, ProductModel):
@@ -24,6 +25,7 @@ class Products(Resource, ProductModel):
             "Products": products
         }, 200
 
+    @admin_only
     @jwt_required
     def post(self):
         args = Products.parser.parse_args()
@@ -46,10 +48,12 @@ class SingleProduct(Resource, ProductModel):
     def get(self, id):
         return ProductModel.get_each_product(self, id)
 
+    @admin_only
     @jwt_required
     def delete(self, id):
         return ProductModel.delete_product(self, id)
 
+    @admin_only
     @jwt_required
     def put(self, id):
         data = request.get_json()

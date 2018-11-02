@@ -140,15 +140,3 @@ class UserModel:
     @staticmethod
     def verify_hash(password, hash):
         return sha256.verify(password, hash)
-
-
-def admin_only(_f):
-    ''' Restrict access if not admin '''
-    @wraps(_f)
-    def wrapper_function(*args, **kwargs):
-        user = UserModel().find_by_email(get_jwt_identity())
-        print(user)
-        if user.role != 'admin':
-            return {'message': 'Unauthorized access, you must be an admin to access this level'}, 401
-        return _f(*args, **kwargs)
-    return wrapper_function
