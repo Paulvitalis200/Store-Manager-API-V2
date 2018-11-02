@@ -9,6 +9,7 @@ Store Manager is a web application that helps store owners manage sales and prod
 
 
 # DOCUMENTATION LINK
+https://storemanagerapiv22.docs.apiary.io/#
 
 
 # PIVOTAL TRACKER STORIES LINK
@@ -54,11 +55,11 @@ Test the endpoints using Postman
 
 Download [Postman](https://www.getpostman.com/)
 
-Copy the link http://127.0.0.1:5000/ into postman if running on your machine locally.
+Copy the link http://localhost/ into postman if running on your machine locally.
 
 If using the heroku link, copy the link into postman.
 
-Add endpoints as defined in the [documentation](https://storemanagerapi.docs.apiary.io/#)
+Add endpoints as defined in the [documentation](https://storemanagerapiv22.docs.apiary.io/#)
 
 
 # FEATURES
@@ -79,11 +80,11 @@ Store owner can give admin rights to a store attendant.
 # EndPoint Functionality
 Method | URL | DESCRIPTION
 -------|-----|------------
-GET /products| http://127.0.0.1:5000/api/v1/products | Fetch all products
-GET /products/productId |http://127.0.0.1:5000/api/v1/products/<int: productId>| Fetch a single product record
-GET /sales |http://127.0.0.1:5000/api/v1/sales|Fetch all sale records Get all sale records.
-GET /sales/saleId | http://127.0.0.1:5000/api/v1/sales/<int: salesId> | Fetch a single sale record
-POST /products| http://127.0.0.1:5000/api/v1/products | Create a product
-POST /sales | http://127.0.0.1:5000/api/v1/sales | Create a sale order
+GET /products| http://localhost/api/v1/products | Fetch all products
+GET /products/productId |http://localhost/api/v1/products/<int: productId>| Fetch a single product record
+GET /sales |http://localhost/api/v1/sales|Fetch all sale records Get all sale records.
+GET /sales/saleId | http://localhost/api/v1/sales/<int: salesId> | Fetch a single sale record
+POST /products| http://localhost/api/v1/products | Create a product
+POST /sales | http://localhost/api/v1/sales | Create a sale order
 
 
