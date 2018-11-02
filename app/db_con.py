@@ -2,12 +2,15 @@ import os
 import psycopg2
 
 from psycopg2 import Error
+from instance.config import Config, TestConfig
+import os
 
 
 db_url = os.getenv('DATABASE_URL')
 
 
 def db_connection():
+    variable = os.getenv("APP_SETTINGS")
     try:
         conn = psycopg2.connect(db_url)
         return conn
