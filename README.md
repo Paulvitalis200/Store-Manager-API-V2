@@ -6,8 +6,13 @@
 Store Manager is a web application that helps store owners manage sales and product inventory records. This application is meant for use in a single store.
 
 
+# HEROKU LINK
+https://storemanagerapi2.herokuapp.com
+
+
 # DOCUMENTATION LINK
 https://storemanagerapiv22.docs.apiary.io/#
+
 
 
 # PIVOTAL TRACKER STORIES LINK
@@ -78,14 +83,14 @@ Store owner can give admin rights to a store attendant.
 # EndPoint Functionality
 Method | URL | DESCRIPTION
 -------|-----|------------
-GET /products| http://localhost/api/v2/products | Fetch all products
-GET /products/productId |http://localhost/api/v2/products/<int: productId>| Fetch a single product record
-GET /sales |http://localhost/api/v2/sales|Fetch all sale records Get all sale records.
-GET /sales/saleId | http://localhost/api/v2/sales/<int: salesId> | Fetch a single sale record
-POST /products| http://localhost/api/v2/products | Create a product
-POST /sales | http://localhost/api/v2/sales | Create a sale order
-POST /auth/login | http://localhost/api/v2/auth/login | Log in a user
-POST /auth/signup | http://localhost/api/v2/auth/signup | Register a user
-POST /auth/logout | http://localhost/api/v2/auth/logout | Log out a user
+GET /products| https://storemanagerapi2.herokuapp.com/api/v2/products | Fetch all products
+GET /products/productId |https://storemanagerapi2.herokuapp.com/api/v2/products/<int: productId>| Fetch a single product record
+GET /sales |https://storemanagerapi2.herokuapp.com/api/v2/sales|Fetch all sale records Get all sale records.
+GET /sales/saleId | https://storemanagerapi2.herokuapp.com/api/v2/sales/<int: salesId> | Fetch a single sale record
+POST /products| https://storemanagerapi2.herokuapp.com/api/v2/products | Create a product
+POST /sales | https://storemanagerapi2.herokuapp.com/api/v2/sales | Create a sale order
+POST /auth/login | https://storemanagerapi2.herokuapp.com/api/v2/auth/login | Log in a user
+POST /auth/signup | https://storemanagerapi2.herokuapp.com/api/v2/auth/signup | Register a user
+POST /auth/logout | https://storemanagerapi2.herokuapp.com/api/v2/auth/logout | Log out a user
 
 
