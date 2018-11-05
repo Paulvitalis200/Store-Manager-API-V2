@@ -18,7 +18,7 @@ class Config(object):
 class TestConfig(Config):
     TESTING = True
     DEBUG = True
-    DBNAME = "test_database"
+    DBNAME = "store_manager_test"
 
 # Development configuration
 
