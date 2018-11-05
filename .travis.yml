@@ -24,6 +24,5 @@ script:
   - pytest
   - pytest --cov-report term-missing --cov=app
 
-
 after_success:
   - coveralls
