@@ -25,7 +25,7 @@ class ProductTest(unittest.TestCase):
         "category": "gaming"
     }
     self.empty_name = {
-        "name": "",
+        "name": "  ",
         "price": 40000,
         "inventory": 300,
         "minimum_stock": 200,
@@ -73,6 +73,17 @@ class ProductTest(unittest.TestCase):
         content_type='application/json')
     return json.loads(res.get_data().decode("UTF-8"))['access_token']
 
+  def test_empty_name(self):
+    res = self.client.post(POST_PRODUCT_URL,
+                           content_type='application/json',
+                           data=json.dumps(self.empty_name),
+                           headers=dict(
+                               Authorization="Bearer " + self.login())
+                           )
+    data = json.loads(res.get_data().decode("UTF-8"))
+    self.assertEqual(data['message'], "Please put a product name and a category.")
+    self.assertEqual(res.status_code, 400)
+
   def test_empty_min_stock(self):
     res = self.client.post(POST_PRODUCT_URL,
                            content_type='application/json',
@@ -81,6 +92,7 @@ class ProductTest(unittest.TestCase):
                                Authorization="Bearer " + self.login())
                            )
     data = json.loads(res.get_data().decode("UTF-8"))
+    self.assertEqual(data['message'], {'minimum_stock': 'Define minimum stock'})
     self.assertEqual(res.status_code, 400)
 
   def test_empty_inventory(self):
@@ -91,6 +103,7 @@ class ProductTest(unittest.TestCase):
                                Authorization="Bearer " + self.login())
                            )
     data = json.loads(res.get_data().decode("UTF-8"))
+    self.assertEqual(data['message'], {'inventory': 'Define available stock'})
     self.assertEqual(res.status_code, 400)
 
   def test_empty_price(self):
@@ -101,6 +114,18 @@ class ProductTest(unittest.TestCase):
                                Authorization="Bearer " + self.login())
                            )
     data = json.loads(res.get_data().decode("UTF-8"))
+    self.assertEqual(data['message'], {'price': ' Product price cannot be blank or a word'})
+    self.assertEqual(res.status_code, 400)
+
+  def test_empty_category(self):
+    res = self.client.post(POST_PRODUCT_URL,
+                           content_type='application/json',
+                           data=json.dumps(self.empty_category),
+                           headers=dict(
+                               Authorization="Bearer " + self.login())
+                           )
+    data = json.loads(res.get_data().decode("UTF-8"))
+    self.assertEqual(data['message'], "Please put a product name and a category.")
     self.assertEqual(res.status_code, 400)
 
 
