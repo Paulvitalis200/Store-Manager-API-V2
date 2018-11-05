@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/Paulstar200/Store-Manager-API-V2.svg?branch=bg-tests-fix-161618639)](https://travis-ci.org/Paulstar200/Store-Manager-API-V2)
 [![Coverage Status](https://coveralls.io/repos/github/Paulstar200/Store-Manager-API-V2/badge.svg)](https://coveralls.io/github/Paulstar200/Store-Manager-API-V2)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/4b0500a42e10460e9943a4b4f4f66396)](https://www.codacy.com/app/Paulstar200/Store-Manager-API-V2?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Paulstar200/Store-Manager-API-V2&amp;utm_campaign=Badge_Grade)
 
 # Store-Manager-API-V2
 
