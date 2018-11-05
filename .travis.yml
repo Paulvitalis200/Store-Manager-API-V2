@@ -3,6 +3,13 @@ python:
   - "3.5"
 
 cache: pip
+
+services:
+  - postgresql
+
+env:
+  - USER = postgres
+  - PASSWORD = 'manu2012'
 # command to install dependencies
 install:
   - pip install -r requirements.txt
