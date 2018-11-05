@@ -7,7 +7,7 @@ cache: pip
 install:
   - pip install -r requirements.txt
 
-before script:
+before_script:
   - export APP_SETTINGS='testing'
   - export SECRET_KEY='Imnottellingyou'
   - export DATABASE_URL='postgresql://postgres:manu2012@localhost:5432/store_manager_test'
