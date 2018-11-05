@@ -26,7 +26,7 @@ class Products(Resource, ProductModel, UserModel):
     def get(self):
         products = self.operation.get_all_products()
         if not products:
-            return {"message": "No products yet"}
+            return {"message": "No products yet"}, 404
         return {
             "Message": "Successfully retrieved products",
             "Products": products
@@ -35,11 +35,15 @@ class Products(Resource, ProductModel, UserModel):
     @jwt_required
     def post(self):
         args = parser.parse_args()
-        name = args.get('name').strip()  # removes whitespace
+        name = args.get('name').strip()
         price = args.get('price')
-        category = args.get('category')
+        category = args.get('category').strip()
         inventory = args.get('inventory')
         minimum_stock = args.get('minimum_stock')
+
+        if not category or not name:
+            return {"message": "Please put a product name and a category."}, 400
+
         try:
             user = UserModel.find_by_email(get_jwt_identity())
             if user[4] != "admin":
