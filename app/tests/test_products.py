@@ -73,26 +73,6 @@ class ProductTest(unittest.TestCase):
         content_type='application/json')
     return json.loads(res.get_data().decode("UTF-8"))['access_token']
 
-  # def test_empty_products(self):
-  #   res = self.client.post(POST_PRODUCT_URL,
-  #                          content_type='application/json',
-  #                          data=json.dumps(self.empty_name),
-  #                          headers=dict(
-  #                              Authorization="Bearer " + self.login())
-  #                          )
-  #   data = json.loads(res.get_data().decode("UTF-8"))
-  #   self.assertEqual(res.status_code, 201)
-
-  # def test_empty_category(self):
-  #   res = self.client.post(POST_PRODUCT_URL,
-  #                          content_type='application/json',
-  #                          data=json.dumps(self.empty_category),
-  #                          headers=dict(
-  #                              Authorization="Bearer " + self.login())
-  #                          )
-  #   data = json.loads(res.get_data().decode("UTF-8"))
-  #   self.assertEqual(res.status_code, 201)
-
   def test_empty_min_stock(self):
     res = self.client.post(POST_PRODUCT_URL,
                            content_type='application/json',
