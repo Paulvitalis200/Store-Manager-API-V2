@@ -19,7 +19,7 @@ script:
   - export APP_SETTINGS='testing'
   - export SECRET_KEY='Imnottellingyou'
   - export DATABASE_URL='postgresql://postgres:manu2012@localhost:5432/store_manager_test'
-  - pytest --cov-report term-missing --cov=app
+  - pytest --cov=app
 
 after_success:
   - coveralls
