@@ -15,13 +15,15 @@ install:
   - pip install -r requirements.txt
 
 before_script:
+  - psql -c "create database store_manager_test;" -U postgres
+
+script:
   - export APP_SETTINGS='testing'
   - export SECRET_KEY='Imnottellingyou'
   - export DATABASE_URL='postgresql://postgres:manu2012@localhost:5432/store_manager_test'
-  - psql -c "CREATE DATABASE store_manager_test;" -U postgres
-# command to run tests
-script:
+  - pytest
   - pytest --cov-report term-missing --cov=app
+
 
 after_success:
   - coveralls
