@@ -1,3 +1,4 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/674215e696d345fb91554df5f96f7338)](https://app.codacy.com/app/Paulstar200/Store-Manager-API-V2?utm_source=github.com&utm_medium=referral&utm_content=Paulstar200/Store-Manager-API-V2&utm_campaign=Badge_Grade_Dashboard)
 [![Build Status](https://travis-ci.org/Paulstar200/Store-Manager-API-V2.svg?branch=bg-tests-fix-161618639)](https://travis-ci.org/Paulstar200/Store-Manager-API-V2)
 [![Coverage Status](https://coveralls.io/repos/github/Paulstar200/Store-Manager-API-V2/badge.svg?branch=bg-tests-fix-161618639)](https://coveralls.io/github/Paulstar200/Store-Manager-API-V2?branch=bg-tests-fix-161618639)
 
