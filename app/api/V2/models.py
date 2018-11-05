@@ -64,7 +64,8 @@ class ProductModel():
             "category": product[5]
         }
         return {
-            "message": "Product retrieved successfully", "product": product_format
+            "message": "Product retrieved successfully",
+            "product": product_format
         }, 200
 
     def delete_product(self, id):
@@ -107,7 +108,10 @@ class ProductModel():
         product = self.curr.fetchone()
         if not product:
             return {'message': "product doesn't exist"}, 404
-        query = "UPDATE products SET name='{}', price='{}', inventory='{}', minimum_stock='{}', category='{}' WHERE id='{}'".format(name, price, inventory, minimum_stock, category, id)
+        query = """
+        UPDATE products SET name='{}', price='{}', inventory='{}',
+         minimum_stock='{}', category='{}' WHERE id='{}'""".format(
+            name, price, inventory, minimum_stock, category, id)
         self.curr.execute(query)
         self.db.commit()
         product_format = {
@@ -152,7 +156,11 @@ class UserModel:
         curr = db.cursor()
         user = UserModel.find_by_email("vitalispaul48@live.com")
         if not user:
-            return UserModel.create_user(username="PaulVitalis", email="vitalispaul48@live.com", password=UserModel().generate_hash("manu2012"), role="admin")
+            return UserModel.create_user(
+                username="PaulVitalis",
+                email="vitalispaul48@live.com",
+                password=UserModel().generate_hash("manu2012"),
+                role="admin")
 
     @staticmethod
     def create_user(username, email, password, role):
@@ -239,7 +247,10 @@ class SalesModel():
         self.curr.execute(query)
         sale = self.curr.fetchone()
         if not sale:
-            return {"message": "No sale record with that id at the moment"}, 404
+            return {
+                "message":
+                "No sale record with that id at the moment"
+            }, 404
         sale_format = {
             "product_id": sale[0],
             "attendant_name": sale[1],

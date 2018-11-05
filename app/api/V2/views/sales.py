@@ -8,8 +8,10 @@ from app.db_con import db_connection, close_connection
 
 class Sales(Resource, SalesModel, UserModel):
     parser = reqparse.RequestParser()
-    parser.add_argument('name', required=True, help='Sales record name cannot be blank', type=str)
-    parser.add_argument('quantity', required=True, help='Sales quantity cannot be blank or a word', type=int)
+    parser.add_argument('name', required=True,
+                        help='Sales record name cannot be blank', type=str)
+    parser.add_argument('quantity', required=True,
+                        help='Sales quantity cannot be blank or a word', type=int)
 
     def __init__(self):
         self.operation = SalesModel()

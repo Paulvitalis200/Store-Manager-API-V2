@@ -6,11 +6,16 @@ from app.api.V2.models import ProductModel, UserModel
 
 
 parser = reqparse.RequestParser()
-parser.add_argument('name', required=True, help='Product name cannot be blank', type=str)
-parser.add_argument('price', required=True, help=' Product price cannot be blank or a word', type=int)
-parser.add_argument('category', required=True, help="Category must be specified", type=str)
-parser.add_argument('inventory', required=True, help="Define available stock", type=int)
-parser.add_argument('minimum_stock', required=True, help="Define minimum stock", type=int)
+parser.add_argument('name', required=True,
+                    help='Product name cannot be blank', type=str)
+parser.add_argument('price', required=True,
+                    help=' Product price cannot be blank or a word', type=int)
+parser.add_argument('category', required=True,
+                    help="Category must be specified", type=str)
+parser.add_argument('inventory', required=True,
+                    help="Define available stock", type=int)
+parser.add_argument('minimum_stock', required=True,
+                    help="Define minimum stock", type=int)
 
 
 class Products(Resource, ProductModel, UserModel):
@@ -39,7 +44,8 @@ class Products(Resource, ProductModel, UserModel):
             user = UserModel.find_by_email(get_jwt_identity())
             if user[4] != "admin":
                 return {"message": "You do not have authorization to access this feature"}
-            product = self.operation.get_item_if_exists(name, price, inventory, minimum_stock, category)
+            product = self.operation.get_item_if_exists(
+                name, price, inventory, minimum_stock, category)
             return product
         except Exception as my_exception:
             print(my_exception)
