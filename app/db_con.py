@@ -80,7 +80,8 @@ def tables():
 
     alteration = """ALTER TABLE products ALTER COLUMN name TYPE citext;"""
 
-    queries = [products_table, sales_table, users_table, tokens_table, fix, alteration]
+    queries = [products_table, sales_table,
+               users_table, tokens_table, fix, alteration]
 
     return queries
 

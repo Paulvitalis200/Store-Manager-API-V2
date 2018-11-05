@@ -11,10 +11,13 @@ from app.db_con import db_connection
 
 class UserRegistration(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument('username', required=True, help='Username cannot be blank', type=str)
+    parser.add_argument('username', required=True,
+                        help='Username cannot be blank', type=str)
     parser.add_argument('email', required=True, help='Email cannot be blank')
-    parser.add_argument('password', required=True, help='Password cannot be blank', type=str)
-    parser.add_argument('role', required=True, help="Role cannot be blank", type=str)
+    parser.add_argument('password', required=True,
+                        help='Password cannot be blank', type=str)
+    parser.add_argument('role', required=True,
+                        help="Role cannot be blank", type=str)
 
     @jwt_required
     def post(self):
@@ -30,7 +33,8 @@ class UserRegistration(Resource):
         if role not in ["attendant", "admin"]:
             return {"message": "Please insert a role of 'attendant' or an 'admin' only."}, 400
 
-        email_format = re.compile(r"(^[a-zA-Z0-9_.-]+@[a-zA-Z-]+\.[.a-zA-Z-]+$)")
+        email_format = re.compile(
+            r"(^[a-zA-Z0-9_.-]+@[a-zA-Z-]+\.[.a-zA-Z-]+$)")
 
         if len(raw_password) < 6 or not (re.match(email_format, email)):
             return {'message': 'Please use a valid email and ensure the password exceeds 6 characters.'}, 400
@@ -52,7 +56,8 @@ class UserRegistration(Resource):
 class UserLogin(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('email', required=True, help='Email cannot be blank')
-    parser.add_argument('password', required=True, help='Password cannot be blank', type=str)
+    parser.add_argument('password', required=True,
+                        help='Password cannot be blank', type=str)
 
     def post(self):
         args = UserLogin.parser.parse_args()
@@ -67,7 +72,8 @@ class UserLogin(Resource):
 
         # compare user's password and the hashed password
         if UserModel.verify_hash(password, hash) and current_user != None:
-            access_token = create_access_token(identity=email, expires_delta=datetime.timedelta(days=5))
+            access_token = create_access_token(
+                identity=email, expires_delta=datetime.timedelta(days=5))
             return {
                 'message': 'Log in successful!',
                 'access_token': access_token
