@@ -1,4 +1,5 @@
 import unittest
+import os
 
 from flask import json
 
@@ -8,11 +9,13 @@ POST_PRODUCT_URL = '/api/v2/products'
 GET_SINGLE_PRODUCT = '/api/v2/products/1'
 GET_ALL_PRODUCTS = '/api/v2/products'
 
+config = os.getenv('APP_SETTINGS')
+
 
 class ProductTest(unittest.TestCase):
   def setUp(self):
     """Initialize app and define test variables"""
-    self.app = create_app('testing')
+    self.app = create_app(config)
     self.client = self.app.test_client()
     self.products = {
         "name": "Playstation 4",
@@ -27,7 +30,7 @@ class ProductTest(unittest.TestCase):
         "inventory": 300,
         "minimum_stock": 200,
         "category": "gaming"
-        }
+    }
 
     self.empty_price = {
         "name": "Playstation 4",
@@ -35,7 +38,7 @@ class ProductTest(unittest.TestCase):
         "inventory": 300,
         "minimum_stock": 200,
         "category": "gaming"
-        }
+    }
 
     self.empty_inventory = {
         "name": "Playstation 4",
@@ -43,7 +46,7 @@ class ProductTest(unittest.TestCase):
         "inventory": "",
         "minimum_stock": 200,
         "category": "gaming"
-        }
+    }
 
     self.empty_min_stock = {
         "name": "Playstation 4",
@@ -51,7 +54,7 @@ class ProductTest(unittest.TestCase):
         "inventory": 4999,
         "minimum_stock": "",
         "category": "gaming"
-        }
+    }
 
     self.empty_category = {
         "name": "Playstation 4",
@@ -59,7 +62,7 @@ class ProductTest(unittest.TestCase):
         "inventory": 400,
         "minimum_stock": 200,
         "category": " "
-        }
+    }
 
   def login(self):
     res = self.client.post(
@@ -87,7 +90,6 @@ class ProductTest(unittest.TestCase):
                            )
     data = json.loads(res.get_data().decode("UTF-8"))
     self.assertEqual(res.status_code, 400)
-
 
   def test_empty_min_stock(self):
     res = self.client.post(POST_PRODUCT_URL,
