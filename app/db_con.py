@@ -7,6 +7,7 @@ import os
 
 
 db_url = os.getenv('DATABASE_URL')
+print(db_url)
 
 
 def db_connection():
