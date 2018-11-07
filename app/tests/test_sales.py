@@ -6,7 +6,7 @@ from flask import json
 from app import create_app
 
 POST_SALE_URL = '/api/v2/sales'
-GET_SINGLE_SALE = '/api/v2/products/1'
+GET_SINGLE_SALE = '/api/v2/sales/1'
 GET_ALL_SALES = '/api/v2/products'
 
 config = os.getenv('APP_SETTINGS')
@@ -113,3 +113,13 @@ class ProductTest(unittest.TestCase):
                           content_type='application/json')
     resp_data = json.loads(res.data.decode())
     self.assertEqual(res.status_code, 404)
+
+  def test_get_no_single_sale(self):
+    """Test API can get a single record by using it's id."""
+    '''Add a product'''
+    res = self.client.get(GET_SINGLE_SALE,
+                          headers=dict(Authorization="Bearer " + self.login()),
+                          content_type='application/json')
+    resp_data = json.loads(res.get_data().decode("UTF-8"))
+    self.assertEqual(res.status_code, 404)
+    self.assertEqual(resp_data['message'], "No sale record with that id at the moment")

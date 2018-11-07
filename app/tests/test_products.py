@@ -138,6 +138,7 @@ class ProductTest(unittest.TestCase):
                           content_type='application/json')
     resp_data = json.loads(res.data.decode())
     self.assertEqual(res.status_code, 404)
+    self.assertEqual(resp_data['message'], "No products yet")
 
   def test_get_no_product(self):
     """Test API can get a single record by using it's id."""
@@ -147,6 +148,7 @@ class ProductTest(unittest.TestCase):
                           content_type='application/json')
     data = json.loads(res.get_data().decode("UTF-8"))
     self.assertEqual(res.status_code, 404)
+    self.assertEqual(data['message'], "No product with that id at the moment")
 
   def tearDown(self):
     db_con.destroy_tables()
