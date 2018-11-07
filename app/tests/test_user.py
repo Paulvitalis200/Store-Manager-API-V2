@@ -131,13 +131,3 @@ class UserTestCase(unittest.TestCase):
         resp_data = json.loads(res.data.decode())
         self.assertEqual(resp_data['message'], "Please insert a role of 'attendant' or an 'admin' only.")
         self.assertEqual(res.status_code, 400)
-
-    def test_existing_user(self):
-        existing_user = self.register_user
-        response = self.client.post(REGISTER_URL,
-                                    data=json.dumps(existing_user),
-                                    headers=dict(Authorization="Bearer " + self.login()),
-                                    content_type='application/json')
-        self.assertEqual(response.status_code, 409)
-        resp_data = json.loads(response.data)
-        self.assertEqual(resp_data['message'], 'A user with that username or email already exists.')
