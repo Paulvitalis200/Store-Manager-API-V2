@@ -39,6 +39,8 @@ class ProductTest(unittest.TestCase):
         "category": "gaming"
     }
 
+    self.empty_fields = {}
+
   def login(self):
     res = self.client.post(
         '/api/v2/auth/login',
@@ -123,3 +125,14 @@ class ProductTest(unittest.TestCase):
     resp_data = json.loads(res.get_data().decode("UTF-8"))
     self.assertEqual(res.status_code, 404)
     self.assertEqual(resp_data['message'], "No sale record with that id at the moment")
+
+  def test_empty_fields(self):
+    res = self.client.post(POST_SALE_URL,
+                           content_type='application/json',
+                           data=json.dumps(self.empty_fields),
+                           headers=dict(
+                               Authorization="Bearer " + self.login())
+                           )
+    data = json.loads(res.get_data().decode("UTF-8"))
+    self.assertEqual(data['message'], {"name": "Sales record name cannot be blank"})
+    self.assertEqual(res.status_code, 400)
