@@ -86,7 +86,8 @@ class ProductTest(unittest.TestCase):
                                Authorization="Bearer " + self.login())
                            )
     data = json.loads(res.get_data().decode("UTF-8"))
-    self.assertEqual(data['message'], "Please put a product name and a category.")
+    self.assertEqual(data['message'],
+                     "Please put a product name and a category.")
     self.assertEqual(res.status_code, 400)
 
   def test_empty_min_stock(self):
@@ -97,7 +98,8 @@ class ProductTest(unittest.TestCase):
                                Authorization="Bearer " + self.login())
                            )
     data = json.loads(res.get_data().decode("UTF-8"))
-    self.assertEqual(data['message'], {'minimum_stock': 'Define minimum stock'})
+    self.assertEqual(data['message'],
+                     {'minimum_stock': 'Define minimum stock'})
     self.assertEqual(res.status_code, 400)
 
   def test_empty_inventory(self):
@@ -108,7 +110,8 @@ class ProductTest(unittest.TestCase):
                                Authorization="Bearer " + self.login())
                            )
     data = json.loads(res.get_data().decode("UTF-8"))
-    self.assertEqual(data['message'], {'inventory': 'Define available stock'})
+    self.assertEqual(data['message'],
+                     {'inventory': 'Define available stock'})
     self.assertEqual(res.status_code, 400)
 
   def test_empty_price(self):
@@ -119,7 +122,8 @@ class ProductTest(unittest.TestCase):
                                Authorization="Bearer " + self.login())
                            )
     data = json.loads(res.get_data().decode("UTF-8"))
-    self.assertEqual(data['message'], {'price': ' Product price cannot be blank or a word'})
+    self.assertEqual(data['message'],
+                     {'price': ' Product price cannot be blank or a word'})
     self.assertEqual(res.status_code, 400)
 
   def test_empty_category(self):
@@ -130,7 +134,8 @@ class ProductTest(unittest.TestCase):
                                Authorization="Bearer " + self.login())
                            )
     data = json.loads(res.get_data().decode("UTF-8"))
-    self.assertEqual(data['message'], "Please put a product name and a category.")
+    self.assertEqual(data['message'],
+                     "Please put a product name and a category.")
     self.assertEqual(res.status_code, 400)
 
   def test_get_null_products(self):
@@ -150,7 +155,8 @@ class ProductTest(unittest.TestCase):
                           content_type='application/json')
     data = json.loads(res.get_data().decode("UTF-8"))
     self.assertEqual(res.status_code, 404)
-    self.assertEqual(data['message'], "No product with that id at the moment")
+    self.assertEqual(data['message'],
+                     "No product with that id at the moment")
 
   def test_empty_fields(self):
     res = self.client.post(POST_PRODUCT_URL,
@@ -160,7 +166,8 @@ class ProductTest(unittest.TestCase):
                                Authorization="Bearer " + self.login())
                            )
     data = json.loads(res.get_data().decode("UTF-8"))
-    self.assertEqual(data['message'], {"name": "Product name cannot be blank"})
+    self.assertEqual(data['message'],
+                     {"name": "Product name cannot be blank"})
     self.assertEqual(res.status_code, 400)
 
   def test_delete_non_existent_product(self):

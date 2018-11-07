@@ -35,11 +35,7 @@ class UserRegistration(Resource):
                 "You do not have authorization to access this feature"
             }, 401
         if role not in ["attendant", "admin"]:
-            return {
-                "message":
-                "Please insert a role of 'attendant' or an 'admin' only."
-            },
-            400
+            return {"message": "Please insert a role of 'attendant' or an 'admin' only."}, 400
 
         email_format = re.compile(
             r"(^[a-zA-Z0-9_.-]+@[a-zA-Z-]+\.[.a-zA-Z-]+$)")
