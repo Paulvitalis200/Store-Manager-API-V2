@@ -18,7 +18,7 @@ class ProductTest(unittest.TestCase):
     self.app = create_app(config)
     self.client = self.app.test_client()
     self.products = {
-        "name": "Playstation 4",
+        "name": "Playstation 5",
         "quantity": 20
     }
     self.empty_name = {
@@ -68,7 +68,7 @@ class ProductTest(unittest.TestCase):
         content_type='application/json')
     return json.loads(res.get_data().decode("UTF-8"))['access_token']
 
-  def test_post_sale(self):
+  def test_post_wrong_sale(self):
     res = self.client.post(POST_SALE_URL,
                            content_type='application/json',
                            data=json.dumps(self.products),
@@ -76,8 +76,8 @@ class ProductTest(unittest.TestCase):
                                Authorization="Bearer " + self.login_attendant())
                            )
     data = json.loads(res.get_data().decode("UTF-8"))
-    self.assertEqual(data['message'], "Sale successful")
-    self.assertEqual(res.status_code, 201)
+    self.assertEqual(data['message'], "Product does not exist")
+    self.assertEqual(res.status_code, 404)
 
   def test_empty_name(self):
     res = self.client.post(POST_SALE_URL,
