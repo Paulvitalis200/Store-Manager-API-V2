@@ -143,7 +143,8 @@ class UserTestCase(unittest.TestCase):
                                headers=dict(Authorization="Bearer " + self.login()),
                                content_type='application/json')
         resp_data = json.loads(res.data.decode())
-        self.assertEqual(resp_data['message'], "Please insert a role of 'attendant' or an 'admin' only.")
+        self.assertEqual(resp_data['message'],
+            "Please insert a role of 'attendant' or an 'admin' only.")
         self.assertEqual(res.status_code, 400)
 
     def tearDown(self):
