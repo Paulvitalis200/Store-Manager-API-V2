@@ -1,11 +1,14 @@
 FORMAT: 1A
-https://localhost.com
+https://storemanagerapi2.herokuapp.com/
 
 # Store-manager-api-v2
 
 Store Manager is a web application that helps store owners
 manage sales and product inventory records.
 This application is meant for use in a single store.
+
+## HEROKU LINK
+https://storemanagerapi2.herokuapp.com
 
 ## ENDPOINTS
 **GET /products - Fetch all products Get all available products.**
@@ -24,12 +27,16 @@ This application is meant for use in a single store.
 
 **POST /register - Admin Register user**
 
+**PUT /products/productId - Admin update product**
+
+**DELETE /products/saleId - Admin delete a product**
+
 To begin, remember to add /api/v2 to the heroku link or the localhost link before inserting the endpoints
 
 
 ### Login admin [POST]
 
-https://localhost.com/api/v2/auth/login
+https://storemanagerapi2.herokuapp.com/api/v2/auth/login
 
 
 Log in with the admin's email and password with the following credentials.
@@ -63,7 +70,7 @@ Log in with the admin's email and password with the following credentials.
 
 The admin can register a store attendant using the following endpoint.
 
-https://localhost.com/api/v2/auth/signup
+https://storemanagerapi2.herokuapp.com/api/v2/auth/signup
 
 + Request 200 (application/json)
 
@@ -90,12 +97,13 @@ https://localhost.com/api/v2/auth/signup
     + Body
            
                 {
-                "message": "user registered successfully"
+                    "message": "user created successfully"
                 }
+                
                 
 ### Login attendant [POST]
 
-https://localhost.com/api/v2/auth/login
+https://storemanagerapi2.herokuapp.com/api/v2/auth/login
 
 
 Log in with the attendant's email and password.
@@ -128,7 +136,7 @@ Log in with the attendant's email and password.
 
 The admin can post a product
 
-https://localhost.com/api/v2/products
+https://storemanagerapi2.herokuapp.com/api/v2/products
 
 + Request (application/json)
 
@@ -168,31 +176,31 @@ https://localhost.com/api/v2/products
             
 ### Get all Products [GET]
 The admin or store attendant can retrieve all products 
-https://localhost.com/api/v1/products
+https://storemanagerapi2.herokuapp.com/api/v2/products
 
 + Response 200 (application/json)
 
         {
-    "Message": "Successfully retrieved products",
-    "Products": [
-        {
-            "product id": 1,
-            "name": "Nike",
-            "price": 300,
-            "available_stock": 300,
-            "min_stock": 20,
-            "category": "Shoes"
-        },
-        {
-            "product id": 2,
-            "name": "Cupboard",
-            "price": 30303030,
-            "available_stock": 200,
-            "min_stock": 500,
-            "category": "Furniture"
-        }
-    ]
-}
+        "Message": "Successfully retrieved products",
+        "Products": [
+            {
+                "product id": 1,
+                "name": "Nike",
+                "price": 300,
+                "available_stock": 300,
+                "min_stock": 20,
+                "category": "Shoes"
+            },
+            {
+                "product id": 2,
+                "name": "Cupboard",
+                "price": 30303030,
+                "available_stock": 200,
+                "min_stock": 500,
+                "category": "Furniture"
+            }
+        ]
+    }
 
 
 ### Get single product [GET]
@@ -201,7 +209,7 @@ THe admin or store attendant can get a single product
  + Headers
 
             Location: api/v2/products/<productid>
-            https://localhost.com/api/v2/<productid>
+            https://storemanagerapi2.herokuapp.com/api/v2/products<productid>
             
 + Response 200 (application/json)
 
@@ -218,19 +226,19 @@ THe admin or store attendant can get a single product
             }
         }
 
-### Create a sale recrod[POST]
+### Create a sale record[POST]
 
 A store attendant can post a sale 
 
-https://localhost.com/api/v2/sales
+https://storemanagerapi2.herokuapp.com/api/v2/sales
 
 + Request (application/json)
 
         
-{
-    "name": "Nike",
-    "quantity" : "20"
-    }
+        {
+            "name": "Nike",
+            "quantity" : "20"
+        }
         
 
 + Response 201 (application/json)
@@ -243,48 +251,96 @@ https://localhost.com/api/v2/sales
 
             
             {
-    "message": "Sale successful",
-    "remaining quantity": 260
-}
+                "message": "Sale successful",
+                "remaining quantity": 260
+            }
+
+
 
             
 ### Get all sales records [GET]
-https://localhost.com/api/v2/sales
+https://storemanagerapi2.herokuapp.com/api/v2/sales
 The attendant can get all the sale records
 + Response 200 (application/json)
 
-{
-    "message": "Successfully retrieved the sales records",
-    "Products": [
+
         {
-            "sale id": 1,
-            "product_name": "Nike",
-            "quantity": 20,
-            "price": 300,
-            "total_price": 6000,
-            "attendant_name": "Manu2012"
+            "message": "Successfully retrieved the sales records",
+            "Products": [
+                {
+                    "sale id": 1,
+                    "product_name": "Nike",
+                    "quantity": 20,
+                    "price": 300,
+                    "total_price": 6000,
+                    "attendant_name": "Manu2012"
+                }
+            ]
         }
-    ]
-}
 
 ### Get single sale records [GET]
-THe sale attendant can get a single sale record
+The sale attendant can get a single sale record
  + Headers
 
             Location: api/v2/sales/<salesid>
-            https://localhost.com/api/v2/sales/<salesid>
+            https://storemanagerapi2.herokuapp.com/api/v2/sales/<salesid>
             
 + Response 200 (application/json)
 
         
-{
-    "message": "Sale record retrieved successfully",
-    "sale": {
-        "product id": 1,
-        "attendant_name": "Manu2012",
-        "product_name": "Nike",
-        "quantity": 20,
-        "price": 300,
-        "total_price": 6000
-    }
-}
+        {
+            "message": "Sale record retrieved successfully",
+            "sale": {
+                "product id": 1,
+                "attendant_name": "Manu2012",
+                "product_name": "Nike",
+                "quantity": 20,
+                "price": 300,
+                "total_price": 6000
+            }
+        }
+
+### DELETE PRODUCT [POST]
+The store owner can delete a product
+ + Headers
+
+            Location: api/v2/products/<productid>
+            https://storemanagerapi2.herokuapp.com/api/v2/products/<productid>
+            
++ Response 202 (application/json)
+
+        
+        {
+            "message": "Deleted",
+            "product": {
+                "product id": 1,
+                "name": "Nike",
+                "inventory": 200,
+                "price": 300,
+                "minimum_stock": 20,
+                "category": "foodstuff"
+                
+            }
+        }
+
+### UPDATE PRODUCT [PUT]
+The store owner can update a product
+ + Headers
+
+            Location: api/v2/products/<productid>
+            https://storemanagerapi2.herokuapp.com/api/v2/products
+            
++ Response 202 (application/json)
+
+        
+        {
+            "message": "Product updated successfully",
+            "product": {
+                "product id": 1,
+                "name": "Nike",
+                "inventory": 200,
+                "price": 300,
+                "minimum_stock": 20,
+                "category": "foodstuff"
+            }
+        }
