@@ -68,7 +68,9 @@ class Sales(Resource, SalesModel, UserModel):
             sale_payload = (sold_by, name, quantity, price, total_price)
             self.curr.execute(sale_query, sale_payload)
             self.conn.commit()
-            return {'message': 'Sale successful', "remaining quantity": updated_quantity}, 201
+            return {
+                'message': 'Sale successful', "remaining quantity": updated_quantity
+            }, 201
         except Exception as my_exception:
             print(my_exception)
             return {'message': 'Something went wrong.'}, 500
