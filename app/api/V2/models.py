@@ -124,7 +124,7 @@ class ProductModel():
         return {"message": "Product updated successfully!"}, 202
 
     def get_by_name(self, name):
-        """Get a single product by product_name"""
+        """Get a single product by product name"""
         self.curr.execute("SELECT * FROM products WHERE name = %s", (name,))
         product = self.curr.fetchone()
         return product
@@ -149,7 +149,6 @@ class ProductModel():
 
 
 class UserModel:
-
     @staticmethod
     def create_user(username, email, password, role):
         db = db_connection()
