@@ -68,12 +68,31 @@ class UserTestCase(unittest.TestCase):
             "password": "manu2012"
         }
 
+        self.register_user_empty_role = {
+            "email": "test@live.com",
+            "password": "123456789",
+            "username": "test",
+            "role": ""
+        }
+
+    def login(self):
+        res = self.client.post(
+            '/api/v2/auth/login',
+            data=json.dumps(
+                dict(email="vitalispaul48@live.com", password="manu2012")
+            ),
+            content_type='application/json')
+        return json.loads(res.get_data().decode("UTF-8"))['access_token']
+
     def test_register_empty_email(self):
         """TEST empty email sign up"""
-        res = self.client.post(REGISTER_URL, data=json.dumps(self.register_user_empty_email),
+        res = self.client.post(REGISTER_URL,
+                               data=json.dumps(self.register_user_empty_email), headers=dict(Authorization="Bearer " + self.login()),
                                content_type='application/json')
         resp_data = json.loads(res.data.decode())
-        self.assertEqual(res.status_code, 401)
+        self.assertEqual(resp_data['message'],
+                         "Please use a valid email and ensure the password exceeds 6 characters.")
+        self.assertEqual(res.status_code, 400)
 
     def test_register_invalid_email(self):
         """TEST invalid email"""
@@ -102,3 +121,23 @@ class UserTestCase(unittest.TestCase):
                                      content_type='application/json')
         resp_data = json.loads(res_login.data.decode())
         self.assertEqual(res_login.status_code, 400)
+
+    def test_empty_role(self):
+        """TEST short sign up password"""
+        res = self.client.post(REGISTER_URL,
+                               data=json.dumps(self.register_user_empty_role),
+                               headers=dict(Authorization="Bearer " + self.login()),
+                               content_type='application/json')
+        resp_data = json.loads(res.data.decode())
+        self.assertEqual(resp_data['message'], "Please insert a role of 'attendant' or an 'admin' only.")
+        self.assertEqual(res.status_code, 400)
+
+    def test_existing_user(self):
+        existing_user = self.register_user
+        response = self.client.post(REGISTER_URL,
+                                    data=json.dumps(existing_user),
+                                    headers=dict(Authorization="Bearer " + self.login()),
+                                    content_type='application/json')
+        self.assertEqual(response.status_code, 409)
+        resp_data = json.loads(response.data)
+        self.assertEqual(resp_data['message'], 'A user with that username or email already exists.')

@@ -4,7 +4,7 @@ from passlib.hash import pbkdf2_sha256 as sha256
 from flask_jwt_extended import get_jwt_identity
 from functools import wraps
 
-from app.db_con import db_connection, close_connection
+from app.db_con import db_connection
 
 
 class ProductModel():

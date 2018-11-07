@@ -23,11 +23,6 @@ conn = db_connection()
 print(conn)
 
 
-def close_connection(db_conn):
-    db_conn.commit()
-    db_conn.close()
-
-
 def create_tables():
     conn = db_connection()
     curr = conn.cursor()

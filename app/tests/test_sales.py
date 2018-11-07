@@ -89,7 +89,3 @@ class ProductTest(unittest.TestCase):
     data = json.loads(res.get_data().decode("UTF-8"))
     self.assertEqual(data['message'], {"quantity": "Sales quantity cannot be blank or a word"})
     self.assertEqual(res.status_code, 400)
-
-
-if __name__ == "__main__":
-  unittest.main()

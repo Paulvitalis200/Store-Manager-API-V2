@@ -127,7 +127,3 @@ class ProductTest(unittest.TestCase):
     data = json.loads(res.get_data().decode("UTF-8"))
     self.assertEqual(data['message'], "Please put a product name and a category.")
     self.assertEqual(res.status_code, 400)
-
-
-if __name__ == "__main__":
-  unittest.main()

@@ -47,10 +47,10 @@ class UserRegistration(Resource):
                 result = UserModel.create_user(username, email, password, role)
                 return make_response(jsonify({"message": "User created successfully"}), 201)
             else:
-                return {'message': 'A user with that username or email already exists.'}
-        except Exception as e:
-            print(e)
-            return {"message": "Something is amiss"}
+                return {'message': 'A user with that username or email already exists.'}, 409
+        except Exception as my_exception:
+            print(my_exception)
+            return {"message": "Something is wrong"}
 
 
 class UserLogin(Resource):
