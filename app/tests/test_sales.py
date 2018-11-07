@@ -3,7 +3,7 @@ import os
 
 from flask import json
 
-from app import create_app
+from app import create_app, db_con
 
 POST_SALE_URL = '/api/v2/sales'
 GET_SINGLE_SALE = '/api/v2/sales/1'
@@ -40,6 +40,8 @@ class ProductTest(unittest.TestCase):
     }
 
     self.empty_fields = {}
+
+    db_con.create_tables()
 
   def login(self):
     res = self.client.post(
@@ -136,3 +138,6 @@ class ProductTest(unittest.TestCase):
     data = json.loads(res.get_data().decode("UTF-8"))
     self.assertEqual(data['message'], {"name": "Sales record name cannot be blank"})
     self.assertEqual(res.status_code, 400)
+
+  def tearDown(self):
+    db_con.destroy_tables()
