@@ -9,9 +9,11 @@ from app.db_con import db_connection
 class Sales(Resource, SalesModel, UserModel):
     parser = reqparse.RequestParser()
     parser.add_argument('name', required=True,
-                        help='Sales record name cannot be blank', type=str)
+                        help='Sales record name cannot be blank',
+                        type=str)
     parser.add_argument('quantity', required=True,
-                        help='Sales quantity cannot be blank or a word', type=int)
+                        help='Sales quantity cannot be blank or a word',
+                        type=int)
 
     def __init__(self):
         self.operation = SalesModel()
@@ -35,7 +37,9 @@ class Sales(Resource, SalesModel, UserModel):
         quantity = args.get('quantity')
         user = UserModel.find_by_email(get_jwt_identity())
         if user[4] != "attendant":
-            return {"message": "You do not have authorization to access this feature"}, 401
+            return {
+                "message": "You do not have authorization to access this feature"
+            }, 401
         sold_by = UserModel().find_by_email(get_jwt_identity())[1]
         if not sold_by:
             return {"message": "Error. No sale record."}

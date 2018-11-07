@@ -120,7 +120,6 @@ class ProductTest(unittest.TestCase):
 
   def test_get_no_single_sale(self):
     """Test API can get a single record by using it's id."""
-    '''Add a product'''
     res = self.client.get(GET_SINGLE_SALE,
                           headers=dict(Authorization="Bearer " + self.login()),
                           content_type='application/json')
