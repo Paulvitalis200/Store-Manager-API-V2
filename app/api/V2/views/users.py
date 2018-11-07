@@ -73,7 +73,7 @@ class UserLogin(Resource):
 
     def post(self):
         args = UserLogin.parser.parse_args()
-        password = args.get('password')
+        password = args.get('password').strip()
         email = args.get('email').strip()
 
         # generate a hash for the password

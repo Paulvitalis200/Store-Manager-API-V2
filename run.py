@@ -11,7 +11,7 @@ app = create_app(config)
 
 @app.route("/documentation")
 def documentation():
-    return redirect("https://storemanagerapi.docs.apiary.io/#")
+    return redirect("https://storemanagerapiv22.docs.apiary.io/#")
 
 
 if __name__ == "__main__":

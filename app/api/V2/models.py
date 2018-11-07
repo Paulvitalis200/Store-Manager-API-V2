@@ -150,17 +150,6 @@ class ProductModel():
 
 
 class UserModel:
-    @staticmethod
-    def create_admin():
-        db = db_connection()
-        curr = db.cursor()
-        user = UserModel.find_by_email("vitalispaul48@live.com")
-        if not user:
-            return UserModel.create_user(
-                username="PaulVitalis",
-                email="vitalispaul48@live.com",
-                password=UserModel().generate_hash("manu2012"),
-                role="admin")
 
     @staticmethod
     def create_user(username, email, password, role):
@@ -172,6 +161,18 @@ class UserModel:
         """.format(username, email, password, role)
         curr.execute(query)
         db.commit()
+
+    @staticmethod
+    def create_admin():
+        db = db_connection()
+        curr = db.cursor()
+        user = UserModel.find_by_email("vitalispaul48@live.com")
+        if not user:
+            return UserModel.create_user(
+                username="PaulVitalis",
+                email="vitalispaul48@live.com",
+                password=UserModel().generate_hash("manu2012"),
+                role="admin")
 
     @staticmethod
     def find_by_email(email):
