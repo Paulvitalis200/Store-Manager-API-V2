@@ -3,7 +3,6 @@ import psycopg2
 
 from psycopg2 import Error
 from instance.config import Config, TestConfig
-import os
 
 
 db_url = os.getenv('DATABASE_URL')
