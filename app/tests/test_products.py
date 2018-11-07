@@ -163,5 +163,13 @@ class ProductTest(unittest.TestCase):
     self.assertEqual(data['message'], {"name": "Product name cannot be blank"})
     self.assertEqual(res.status_code, 400)
 
+  def test_delete_non_existent_product(self):
+    res = self.client.delete(GET_SINGLE_PRODUCT,
+                             content_type='application/json',
+                             headers=dict(Authorization="Bearer " + self.login()))
+    data = json.loads(res.get_data().decode("UTF-8"))
+    self.assertEqual(res.status_code, 404)
+    self.assertEqual(data['message'], "Product with that ID does not exist.")
+
   def tearDown(self):
     db_con.destroy_tables()
