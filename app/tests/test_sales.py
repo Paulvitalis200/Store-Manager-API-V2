@@ -100,3 +100,17 @@ class ProductTest(unittest.TestCase):
     data = json.loads(res.get_data().decode("UTF-8"))
     self.assertEqual(data['message'], {"quantity": "Sales quantity cannot be blank or a word"})
     self.assertEqual(res.status_code, 400)
+
+  def test_get_all_sales(self):
+    """TEST whether the API can get all product(POST)"""
+    res = self.client.post(POST_SALE_URL,
+                           content_type='application/json',
+                           headers=dict(Authorization="Bearer " + self.login_attendant()),
+                           data=json.dumps(self.products))
+    self.assertEqual(res.status_code, 404)
+    res = self.client.get(GET_ALL_SALES,
+                          headers=dict(Authorization="Bearer " + self.login()),
+                          content_type='application/json')
+    resp_data = json.loads(res.data.decode())
+    #self.assertTrue(resp_data['message'] == 'No sales records yet')
+    self.assertEqual(res.status_code, 404)

@@ -22,7 +22,7 @@ class Sales(Resource, SalesModel, UserModel):
     def get(self):
         sales = self.operation.get_all_sales()
         if not sales:
-            return {"message": "No sales records yet"}
+            return {"message": "No sales records yet"}, 404
         return {
             "message": "Successfully retrieved the sales records",
             "Products": sales
