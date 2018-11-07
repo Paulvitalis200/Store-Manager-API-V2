@@ -65,6 +65,8 @@ class ProductTest(unittest.TestCase):
         "category": " "
     }
 
+    self.empty_fields = {}
+
     db_con.create_tables()
 
   def login(self):
@@ -149,6 +151,17 @@ class ProductTest(unittest.TestCase):
     data = json.loads(res.get_data().decode("UTF-8"))
     self.assertEqual(res.status_code, 404)
     self.assertEqual(data['message'], "No product with that id at the moment")
+
+  def test_empty_fields(self):
+    res = self.client.post(POST_PRODUCT_URL,
+                           content_type='application/json',
+                           data=json.dumps(self.empty_fields),
+                           headers=dict(
+                               Authorization="Bearer " + self.login())
+                           )
+    data = json.loads(res.get_data().decode("UTF-8"))
+    self.assertEqual(data['message'], {"name": "Product name cannot be blank"})
+    self.assertEqual(res.status_code, 400)
 
   def tearDown(self):
     db_con.destroy_tables()

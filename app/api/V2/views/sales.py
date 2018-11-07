@@ -35,7 +35,7 @@ class Sales(Resource, SalesModel, UserModel):
         quantity = args.get('quantity')
         user = UserModel.find_by_email(get_jwt_identity())
         if user[4] != "attendant":
-            return {"message": "You do not have authorization to access this feature"}
+            return {"message": "You do not have authorization to access this feature"}, 401
         sold_by = UserModel().find_by_email(get_jwt_identity())[1]
         if not sold_by:
             return {"message": "Error. No sale record."}
