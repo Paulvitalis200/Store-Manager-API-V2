@@ -131,5 +131,22 @@ class ProductTest(unittest.TestCase):
     self.assertEqual(data['message'], "Please put a product name and a category.")
     self.assertEqual(res.status_code, 400)
 
+  def test_get_null_products(self):
+    """TEST whether the API can get all product(POST)"""
+    res = self.client.get(GET_ALL_PRODUCTS,
+                          headers=dict(Authorization="Bearer " + self.login()),
+                          content_type='application/json')
+    resp_data = json.loads(res.data.decode())
+    self.assertEqual(res.status_code, 404)
+
+  def test_get_no_product(self):
+    """Test API can get a single record by using it's id."""
+    '''Add a product'''
+    res = self.client.get(GET_SINGLE_PRODUCT,
+                          headers=dict(Authorization="Bearer " + self.login()),
+                          content_type='application/json')
+    data = json.loads(res.get_data().decode("UTF-8"))
+    self.assertEqual(res.status_code, 404)
+
   def tearDown(self):
     db_con.destroy_tables()

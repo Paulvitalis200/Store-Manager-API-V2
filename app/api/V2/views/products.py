@@ -47,7 +47,7 @@ class Products(Resource, ProductModel, UserModel):
         try:
             user = UserModel.find_by_email(get_jwt_identity())
             if user[4] != "admin":
-                return {"message": "You do not have authorization to access this feature"}
+                return {"message": "You do not have authorization to access this feature"}, 401
             product = self.operation.get_item_if_exists(
                 name, price, inventory, minimum_stock, category)
             return product
@@ -64,7 +64,7 @@ class SingleProduct(Resource, ProductModel, UserModel):
     def delete(self, id):
         user = UserModel.find_by_email(get_jwt_identity())
         if user[4] != "admin":
-            return {"message": "You do not have authorization to access this feature"}
+            return {"message": "You do not have authorization to access this feature"}, 401
         return ProductModel.delete_product(self, id)
 
     @jwt_required

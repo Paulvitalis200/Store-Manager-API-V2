@@ -112,5 +112,4 @@ class ProductTest(unittest.TestCase):
                           headers=dict(Authorization="Bearer " + self.login()),
                           content_type='application/json')
     resp_data = json.loads(res.data.decode())
-    #self.assertTrue(resp_data['message'] == 'No sales records yet')
     self.assertEqual(res.status_code, 404)
