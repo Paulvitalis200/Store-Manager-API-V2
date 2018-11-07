@@ -82,7 +82,6 @@ class UserLogin(Resource):
         # check if user by the email exists
         current_user = UserModel.find_by_email(email)
 
-        # compare user's password and the hashed password
         if UserModel.verify_hash(password, hash) and current_user != None:
             access_token = create_access_token(
                 identity=email, expires_delta=datetime.timedelta(days=5))
