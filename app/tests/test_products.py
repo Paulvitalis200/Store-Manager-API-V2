@@ -3,11 +3,12 @@ import os
 
 from flask import json
 
-from app import create_app
+from app import create_app, db_con
 
 POST_PRODUCT_URL = '/api/v2/products'
 GET_SINGLE_PRODUCT = '/api/v2/products/1'
 GET_ALL_PRODUCTS = '/api/v2/products'
+USERLOGIN = '/api/v2/auth/login'
 
 config = os.getenv('APP_SETTINGS')
 
@@ -63,6 +64,8 @@ class ProductTest(unittest.TestCase):
         "minimum_stock": 200,
         "category": " "
     }
+
+    db_con.create_tables()
 
   def login(self):
     res = self.client.post(
@@ -127,3 +130,6 @@ class ProductTest(unittest.TestCase):
     data = json.loads(res.get_data().decode("UTF-8"))
     self.assertEqual(data['message'], "Please put a product name and a category.")
     self.assertEqual(res.status_code, 400)
+
+  def tearDown(self):
+    db_con.destroy_tables()
