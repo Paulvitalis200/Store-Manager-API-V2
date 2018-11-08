@@ -1,7 +1,5 @@
 [![Build Status](https://travis-ci.org/Paulstar200/Store-Manager-API-V2.svg?branch=bg-tests-fix-161618639)](https://travis-ci.org/Paulstar200/Store-Manager-API-V2)
-[![Coverage Status](https://coveralls.io/repos/github/Paulstar200/Store-Manager-API-V2/badge.svg)](https://coveralls.io/github/Paulstar200/Store-Manager-API-V2)
-
-
+[![Coverage Status](https://coveralls.io/repos/github/Paulstar200/Store-Manager-API-V2/badge.svg?branch=ch-tests-refactor-161778812)](https://coveralls.io/github/Paulstar200/Store-Manager-API-V2?branch=ch-tests-refactor-161778812)
 # Store-Manager-API-V2
 
 Store Manager is a web application that helps store owners manage sales and product inventory records. This application is meant for use in a single store.
@@ -85,13 +83,16 @@ Store owner can give admin rights to a store attendant.
 Method | URL | DESCRIPTION
 -------|-----|------------
 GET /products| https://storemanagerapi2.herokuapp.com/api/v2/products | Fetch all products
-GET /products/productId |https://storemanagerapi2.herokuapp.com/api/v2/products/<int: productId>| Fetch a single product record
+GET /products/productId |https://storemanagerapi2.herokuapp.com/api/v2/products/<int: productid>| Fetch a single product record
 GET /sales |https://storemanagerapi2.herokuapp.com/api/v2/sales|Fetch all sale records Get all sale records.
-GET /sales/saleId | https://storemanagerapi2.herokuapp.com/api/v2/sales/<int: salesId> | Fetch a single sale record
+GET /sales/saleId | https://storemanagerapi2.herokuapp.com/api/v2/sales/<int: salesid> | Fetch a single sale record
 POST /products| https://storemanagerapi2.herokuapp.com/api/v2/products | Create a product
 POST /sales | https://storemanagerapi2.herokuapp.com/api/v2/sales | Create a sale order
+PUT /products| https://storemanagerapi2.herokuapp.com/api/v2/products/<int: productid> | UPDATE a product
+DELETE /products| https://storemanagerapi2.herokuapp.com/api/v2/products/<int: productid> | DELETE a product
 POST /auth/login | https://storemanagerapi2.herokuapp.com/api/v2/auth/login | Log in a user
 POST /auth/signup | https://storemanagerapi2.herokuapp.com/api/v2/auth/signup | Register a user
 POST /auth/logout | https://storemanagerapi2.herokuapp.com/api/v2/auth/logout | Log out a user
+
 
 

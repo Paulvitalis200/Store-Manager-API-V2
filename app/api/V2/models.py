@@ -2,9 +2,8 @@ import psycopg2.extras
 
 from passlib.hash import pbkdf2_sha256 as sha256
 from flask_jwt_extended import get_jwt_identity
-from functools import wraps
 
-from app.db_con import db_connection, close_connection
+from app.db_con import db_connection
 
 
 class ProductModel():
@@ -125,7 +124,7 @@ class ProductModel():
         return {"message": "Product updated successfully!"}, 202
 
     def get_by_name(self, name):
-        """Get a single product by product_name"""
+        """Get a single product by product name"""
         self.curr.execute("SELECT * FROM products WHERE name = %s", (name,))
         product = self.curr.fetchone()
         return product
@@ -151,6 +150,17 @@ class ProductModel():
 
 class UserModel:
     @staticmethod
+    def create_user(username, email, password, role):
+        db = db_connection()
+        curr = db.cursor()
+        query = """
+            INSERT INTO users (username, email, password, role) VALUES
+            ('{}', '{}', '{}', '{}');
+        """.format(username, email, password, role)
+        curr.execute(query)
+        db.commit()
+
+    @staticmethod
     def create_admin():
         db = db_connection()
         curr = db.cursor()
@@ -161,17 +171,6 @@ class UserModel:
                 email="vitalispaul48@live.com",
                 password=UserModel().generate_hash("manu2012"),
                 role="admin")
-
-    @staticmethod
-    def create_user(username, email, password, role):
-        db = db_connection()
-        curr = db.cursor()
-        query = """
-            INSERT INTO users (username, email, password, role) VALUES
-            ('{}', '{}', '{}', '{}');
-        """.format(username, email, password, role)
-        curr.execute(query)
-        db.commit()
 
     @staticmethod
     def find_by_email(email):

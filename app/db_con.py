@@ -3,7 +3,6 @@ import psycopg2
 
 from psycopg2 import Error
 from instance.config import Config, TestConfig
-import os
 
 
 db_url = os.getenv('DATABASE_URL')
@@ -21,11 +20,6 @@ def db_connection():
 
 conn = db_connection()
 print(conn)
-
-
-def close_connection(db_conn):
-    db_conn.commit()
-    db_conn.close()
 
 
 def create_tables():

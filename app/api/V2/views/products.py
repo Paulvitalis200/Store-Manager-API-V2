@@ -42,12 +42,17 @@ class Products(Resource, ProductModel, UserModel):
         minimum_stock = args.get('minimum_stock')
 
         if not category or not name:
-            return {"message": "Please put a product name and a category."}, 400
+            return {
+                "message": "Please put a product name and a category."
+            }, 400
 
         try:
             user = UserModel.find_by_email(get_jwt_identity())
             if user[4] != "admin":
-                return {"message": "You do not have authorization to access this feature"}
+                return {
+                    "message":
+                    "You do not have authorization to access this feature"
+                }, 401
             product = self.operation.get_item_if_exists(
                 name, price, inventory, minimum_stock, category)
             return product
@@ -64,7 +69,10 @@ class SingleProduct(Resource, ProductModel, UserModel):
     def delete(self, id):
         user = UserModel.find_by_email(get_jwt_identity())
         if user[4] != "admin":
-            return {"message": "You do not have authorization to access this feature"}
+            return {
+                "message":
+                "You do not have authorization to access this feature"
+            }, 401
         return ProductModel.delete_product(self, id)
 
     @jwt_required
@@ -78,5 +86,8 @@ class SingleProduct(Resource, ProductModel, UserModel):
 
         user = UserModel.find_by_email(get_jwt_identity())
         if user[4] != "admin":
-            return {"message": "You do not have authorization to access this feature"}
+            return {
+                "message":
+                "You do not have authorization to access this feature"
+            }, 401
         return ProductModel.update_product(self, id, name, price, inventory, minimum_stock, category)

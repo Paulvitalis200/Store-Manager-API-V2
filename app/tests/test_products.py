@@ -3,11 +3,12 @@ import os
 
 from flask import json
 
-from app import create_app
+from app import create_app, db_con
 
 POST_PRODUCT_URL = '/api/v2/products'
 GET_SINGLE_PRODUCT = '/api/v2/products/1'
 GET_ALL_PRODUCTS = '/api/v2/products'
+USERLOGIN = '/api/v2/auth/login'
 
 config = os.getenv('APP_SETTINGS')
 
@@ -64,6 +65,10 @@ class ProductTest(unittest.TestCase):
         "category": " "
     }
 
+    self.empty_fields = {}
+
+    db_con.create_tables()
+
   def login(self):
     res = self.client.post(
         '/api/v2/auth/login',
@@ -81,7 +86,8 @@ class ProductTest(unittest.TestCase):
                                Authorization="Bearer " + self.login())
                            )
     data = json.loads(res.get_data().decode("UTF-8"))
-    self.assertEqual(data['message'], "Please put a product name and a category.")
+    self.assertEqual(data['message'],
+                     "Please put a product name and a category.")
     self.assertEqual(res.status_code, 400)
 
   def test_empty_min_stock(self):
@@ -92,7 +98,8 @@ class ProductTest(unittest.TestCase):
                                Authorization="Bearer " + self.login())
                            )
     data = json.loads(res.get_data().decode("UTF-8"))
-    self.assertEqual(data['message'], {'minimum_stock': 'Define minimum stock'})
+    self.assertEqual(data['message'],
+                     {'minimum_stock': 'Define minimum stock'})
     self.assertEqual(res.status_code, 400)
 
   def test_empty_inventory(self):
@@ -103,7 +110,8 @@ class ProductTest(unittest.TestCase):
                                Authorization="Bearer " + self.login())
                            )
     data = json.loads(res.get_data().decode("UTF-8"))
-    self.assertEqual(data['message'], {'inventory': 'Define available stock'})
+    self.assertEqual(data['message'],
+                     {'inventory': 'Define available stock'})
     self.assertEqual(res.status_code, 400)
 
   def test_empty_price(self):
@@ -114,7 +122,8 @@ class ProductTest(unittest.TestCase):
                                Authorization="Bearer " + self.login())
                            )
     data = json.loads(res.get_data().decode("UTF-8"))
-    self.assertEqual(data['message'], {'price': ' Product price cannot be blank or a word'})
+    self.assertEqual(data['message'],
+                     {'price': ' Product price cannot be blank or a word'})
     self.assertEqual(res.status_code, 400)
 
   def test_empty_category(self):
@@ -125,9 +134,49 @@ class ProductTest(unittest.TestCase):
                                Authorization="Bearer " + self.login())
                            )
     data = json.loads(res.get_data().decode("UTF-8"))
-    self.assertEqual(data['message'], "Please put a product name and a category.")
+    self.assertEqual(data['message'],
+                     "Please put a product name and a category.")
     self.assertEqual(res.status_code, 400)
 
+  def test_get_null_products(self):
+    """TEST whether the API can get all product(POST)"""
+    res = self.client.get(GET_ALL_PRODUCTS,
+                          headers=dict(Authorization="Bearer " + self.login()),
+                          content_type='application/json')
+    resp_data = json.loads(res.data.decode())
+    self.assertEqual(res.status_code, 404)
+    self.assertEqual(resp_data['message'], "No products yet")
 
-if __name__ == "__main__":
-  unittest.main()
+  def test_get_no_product(self):
+    """Test API can get a single record by using it's id."""
+    '''Add a product'''
+    res = self.client.get(GET_SINGLE_PRODUCT,
+                          headers=dict(Authorization="Bearer " + self.login()),
+                          content_type='application/json')
+    data = json.loads(res.get_data().decode("UTF-8"))
+    self.assertEqual(res.status_code, 404)
+    self.assertEqual(data['message'],
+                     "No product with that id at the moment")
+
+  def test_empty_fields(self):
+    res = self.client.post(POST_PRODUCT_URL,
+                           content_type='application/json',
+                           data=json.dumps(self.empty_fields),
+                           headers=dict(
+                               Authorization="Bearer " + self.login())
+                           )
+    data = json.loads(res.get_data().decode("UTF-8"))
+    self.assertEqual(data['message'],
+                     {"name": "Product name cannot be blank"})
+    self.assertEqual(res.status_code, 400)
+
+  def test_delete_non_existent_product(self):
+    res = self.client.delete(GET_SINGLE_PRODUCT,
+                             content_type='application/json',
+                             headers=dict(Authorization="Bearer " + self.login()))
+    data = json.loads(res.get_data().decode("UTF-8"))
+    self.assertEqual(res.status_code, 404)
+    self.assertEqual(data['message'], "Product with that ID does not exist.")
+
+  def tearDown(self):
+    db_con.destroy_tables()
