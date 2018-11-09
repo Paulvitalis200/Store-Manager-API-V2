@@ -110,3 +110,15 @@ class UserLogout(Resource):
         self.curr.execute(blacklist_token)
         self.db.commit()
         return {"msg": "Successfully logged out"}, 200
+
+
+class GetAllUsers(Resource):
+    @jwt_required
+    def get(self):
+        return UserModel.get_all_users()
+
+
+class GetEachUser(Resource):
+    @jwt_required
+    def get(self, id):
+        return UserModel.get_single_user(id)
