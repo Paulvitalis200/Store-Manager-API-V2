@@ -2,8 +2,7 @@ from flask import Blueprint
 from flask_restful import Api
 
 from .views.products import Products, SingleProduct
-from .views.users import (UserRegistration, UserLogin, UserLogout,
-                          GetAllUsers, GetEachUser)
+from .views.users import UserRegistration, UserLogin, UserLogout
 from .views.sales import Sales, SingleSale
 
 my_apis = Blueprint("resources.api", __name__, url_prefix='/api/v2')
@@ -48,16 +47,4 @@ api.add_resource(
     SingleSale,
     "/sales/<int:id>",
     endpoint="sale"
-)
-
-api.add_resource(
-    GetAllUsers,
-    "/users",
-    endpoint="users"
-)
-
-api.add_resource(
-    GetEachUser,
-    "/users/<int:id>",
-    endpoint="user"
 )

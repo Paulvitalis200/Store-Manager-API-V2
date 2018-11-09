@@ -191,51 +191,6 @@ class UserModel:
         return user
 
     @staticmethod
-    def get_all_users():
-        db = db_connection()
-        curr = db.cursor()
-        query = "SELECT * FROM users;"
-        curr.execute(query)
-        data = curr.fetchall()
-        users = []
-        for i, items in enumerate(data):
-            id, username, email, password, role = items
-            user_fields = {
-                "id": id,
-                "username": username,
-                "email": email,
-                "password": password,
-                "role": role
-            }
-            users.append(user_fields)
-        return {
-            "message": "Users retrieved successfully",
-            "users": users
-        }
-
-    @staticmethod
-    def get_single_user(user_id):
-        db = db_connection()
-        curr = db.cursor()
-        query = """SELECT * FROM users WHERE id = {};""".format(user_id)
-        curr.execute(query)
-        user = curr.fetchone()
-        if not user:
-            return {
-                "message": "No user with that id at the moment"
-            }, 404
-        users_format = {
-            "id": user[0],
-            "username": user[1],
-            "email": user[2],
-            "role": user[4]
-        }
-        return {
-            "message": "User retrieved successfully",
-            "users": users_format
-        }, 200
-
-    @staticmethod
     def generate_hash(password):
         return sha256.hash(password)
 
