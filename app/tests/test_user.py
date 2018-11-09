@@ -9,6 +9,9 @@ from app import create_app, db_con
 
 REGISTER_URL = '/api/v2/auth/signup'
 LOGIN_URL = '/api/v2/auth/login'
+GET_USERS = '/api/v2/users'
+GET_SINGLE_USER = "/api/v2/users/1"
+
 
 config = os.getenv('APP_SETTINGS')
 
@@ -144,8 +147,24 @@ class UserTestCase(unittest.TestCase):
                                content_type='application/json')
         resp_data = json.loads(res.data.decode())
         self.assertEqual(resp_data['message'],
-            "Please insert a role of 'attendant' or an 'admin' only.")
+                         "Please insert a role of 'attendant' or an 'admin' only.")
         self.assertEqual(res.status_code, 400)
+
+    def test_get_users(self):
+        res = self.client.get(GET_USERS,
+                              headers=dict(Authorization="Bearer " + self.login()))
+        resp_data = json.loads(res.data.decode())
+        self.assertEqual(resp_data['message'],
+                         "Users retrieved successfully")
+        self.assertEqual(res.status_code, 200)
+
+    def test_get_single_user(self):
+        res = self.client.get(GET_SINGLE_USER,
+                              headers=dict(Authorization="Bearer " + self.login()))
+        resp_data = json.loads(res.data.decode())
+        self.assertEqual(resp_data['message'],
+                         "User retrieved successfully")
+        self.assertEqual(res.status_code, 200)
 
     def tearDown(self):
         db_con.destroy_tables()
