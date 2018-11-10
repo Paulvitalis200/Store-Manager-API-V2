@@ -62,7 +62,7 @@ class UserRegistration(Resource):
                 }, 409
         except Exception as my_exception:
             print(my_exception)
-            return {"message": "Something is wrong"}
+            return {"message": "User already exists"}, 400
 
 
 class UserLogin(Resource):
@@ -76,13 +76,17 @@ class UserLogin(Resource):
         password = args.get('password').strip()
         email = args.get('email').strip()
 
-        # generate a hash for the password
-        hash = UserModel.generate_hash(password)
+        if not email:
+            return {"message": "Email cannot be blank"}, 400
+        if not password:
+            return {"message": "Password cannot be blank"}, 400
 
         # check if user by the email exists
         current_user = UserModel.find_by_email(email)
+        if current_user == None:
+            return {"message": "User does not exist."}, 400
 
-        if UserModel.verify_hash(password, hash) and current_user != None:
+        if UserModel.verify_hash(password, current_user[3]):
             access_token = create_access_token(
                 identity=email, expires_delta=datetime.timedelta(days=5))
             return {
@@ -92,7 +96,7 @@ class UserLogin(Resource):
         else:
             return {
                 'message':
-                'That user does not exist or Incorrect email or password. Try again'
+                'Incorrect password.'
             }, 400
 
 
