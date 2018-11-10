@@ -1,4 +1,5 @@
 from flask import Flask, Blueprint
+from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 
 from app.db_con import db_connection, create_tables, destroy_tables
@@ -31,5 +32,7 @@ def create_app(config):
 
     from .api.V2 import my_apis
     app.register_blueprint(my_apis)
+
+    CORS(app)
 
     return app
