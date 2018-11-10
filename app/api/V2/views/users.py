@@ -35,7 +35,7 @@ class UserRegistration(Resource):
         if user[4] != "admin":
             return {
                 "message":
-                "You do not have authorization to access this feature"
+                "You do not have authorization to access this feature."
             }, 401
         if role not in ["attendant", "admin"]:
             return {"message": "Please insert a role of 'attendant' or an 'admin' only."}, 400
