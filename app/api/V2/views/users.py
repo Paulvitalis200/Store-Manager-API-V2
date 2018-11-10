@@ -29,10 +29,13 @@ class UserRegistration(Resource):
         role = args.get('role').strip()
         user = UserModel.find_by_email(get_jwt_identity())
 
+        if not username:
+            return {"message": "Username cannot be blank."}, 400
+
         if user[4] != "admin":
             return {
                 "message":
-                "You do not have authorization to access this feature"
+                "You do not have authorization to access this feature."
             }, 401
         if role not in ["attendant", "admin"]:
             return {"message": "Please insert a role of 'attendant' or an 'admin' only."}, 400
