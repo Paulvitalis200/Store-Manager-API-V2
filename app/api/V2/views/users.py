@@ -29,6 +29,9 @@ class UserRegistration(Resource):
         role = args.get('role').strip()
         user = UserModel.find_by_email(get_jwt_identity())
 
+        if not username:
+            return {"message": "Username cannot be blank"}, 400
+
         if user[4] != "admin":
             return {
                 "message":
