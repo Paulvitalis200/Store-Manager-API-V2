@@ -81,9 +81,6 @@ class UserLogin(Resource):
         if not password:
             return {"message": "Password cannot be blank"}, 400
 
-        # generate a hash for the password
-        hash = UserModel.generate_hash(password)
-
         # check if user by the email exists
         current_user = UserModel.find_by_email(email)
         if current_user == None:
