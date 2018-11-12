@@ -87,7 +87,7 @@ class ProductTest(unittest.TestCase):
                            )
     data = json.loads(res.get_data().decode("UTF-8"))
     self.assertEqual(data['message'],
-                     "Please put a product name and a category.")
+                     "Please input all fields correctly")
     self.assertEqual(res.status_code, 400)
 
   def test_empty_min_stock(self):
@@ -135,7 +135,7 @@ class ProductTest(unittest.TestCase):
                            )
     data = json.loads(res.get_data().decode("UTF-8"))
     self.assertEqual(data['message'],
-                     "Please put a product name and a category.")
+                     "Please input all fields correctly")
     self.assertEqual(res.status_code, 400)
 
   def test_get_null_products(self):
