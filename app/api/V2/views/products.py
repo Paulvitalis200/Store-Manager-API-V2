@@ -41,9 +41,9 @@ class Products(Resource, ProductModel, UserModel):
         inventory = args.get('inventory')
         minimum_stock = args.get('minimum_stock')
 
-        if not category or not name:
+        if not name or not price or not category or not inventory or not minimum_stock:
             return {
-                "message": "Please put a product name and a category."
+                "message": "Please input all fields correctly"
             }, 400
 
         try:
