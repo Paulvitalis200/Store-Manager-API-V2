@@ -27,7 +27,7 @@ class Sales(Resource, SalesModel, UserModel):
             return {"message": "No sales records yet"}, 404
         return {
             "message": "Successfully retrieved the sales records",
-            "Products": sales
+            "Sales": sales
         }, 200
 
     @jwt_required
