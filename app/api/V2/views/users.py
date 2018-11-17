@@ -94,6 +94,8 @@ class UserLogin(Resource):
                 identity=email, expires_delta=datetime.timedelta(days=5))
             return {
                 'message': 'Log in successful!',
+                'username': current_user[1],
+                'role': current_user[4],
                 'access_token': access_token
             }, 201
         else:
