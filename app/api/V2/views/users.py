@@ -122,12 +122,10 @@ class UserLogout(Resource):
 
 
 class GetAllUsers(Resource):
-    @jwt_required
     def get(self):
         return UserModel.get_all_users()
 
 
 class GetEachUser(Resource):
-    @jwt_required
     def get(self, id):
         return UserModel.get_single_user(id)

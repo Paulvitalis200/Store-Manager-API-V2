@@ -20,7 +20,6 @@ class Sales(Resource, SalesModel, UserModel):
         self.conn = db_connection()
         self.curr = self.conn.cursor()
 
-    @jwt_required
     def get(self):
         sales = self.operation.get_all_sales()
         if not sales:
@@ -77,6 +76,5 @@ class Sales(Resource, SalesModel, UserModel):
 
 
 class SingleSale(Resource, SalesModel):
-    @jwt_required
     def get(self, id):
         return SalesModel().get_each_sale(id)

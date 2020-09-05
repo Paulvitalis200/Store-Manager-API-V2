@@ -22,7 +22,6 @@ class Products(Resource, ProductModel, UserModel):
     def __init__(self):
         self.operation = ProductModel()
 
-    @jwt_required
     def get(self):
         products = self.operation.get_all_products()
         if not products:
